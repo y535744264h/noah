@@ -1,0 +1,25 @@
+spring:
+  thymeleaf:
+    #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
+    #编码 可不用配置
+    encoding: UTF-8
+    #开发配置为false,避免修改模板还要重启服务器
+    cache: false
+    #配置模板路径，默认是templates，可以不用配置
+    servlet:
+      content-type: text/html
+    mode: HTML
+    suffix: .html
+    prefix: classpath:/templates/
+
+  datasource:
+    url: jdbc:mysql://39.96.41.241:3306/nosh?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 67302339Yh!
+    username: root
+
+mybatis:
+  mapper-locations: classpath:mapper/system/*Mapper.xml
+  type-aliases-package: com.cctv.project.noah.**.entity
+server:
+  port: 8080
