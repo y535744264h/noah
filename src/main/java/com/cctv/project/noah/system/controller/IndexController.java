@@ -39,7 +39,7 @@ public class IndexController extends BaseController{
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
         mmap.put("user", user);
-        return "/index";
+        return "index";
     }
 
 
