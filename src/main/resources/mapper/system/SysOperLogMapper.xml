@@ -210,7 +210,7 @@
     where oper_id = #{operId,jdbcType=BIGINT}
   </update>
 
-  <select id="selectOperLogList" parameterType="SysOperLog" resultMap="BaseResultMap">
+  <select id="selectOperLogList" parameterType="com.cctv.project.noah.system.entity.SysOperLog" resultMap="BaseResultMap">
     select oper_id, title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, status, error_msg, oper_time
     from sys_oper_log
     <where>
@@ -232,13 +232,24 @@
       <if test="operName != null and operName != ''">
         AND oper_name like concat('%', #{operName}, '%')
       </if>
-      <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+      <if test="params!=null and params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
         and date_format(oper_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
       </if>
-      <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+      <if test="params!=null and params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
         and date_format(oper_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
       </if>
     </where>
   </select>
+
+  <delete id="deleteOperLogByIds" parameterType="String">
+    delete from sys_oper_log where oper_id in
+    <foreach collection="array" item="operId" open="(" separator="," close=")">
+      #{operId}
+    </foreach>
+  </delete>
+
+  <update id="cleanOperLog">
+        truncate table sys_oper_log
+  </update>
 
 </mapper>

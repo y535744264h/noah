@@ -1,13 +1,12 @@
 package com.cctv.project.noah.system.server.impl;
 
-import com.cctv.project.noah.system.aspectj.JdbcTemplatePageHelper;
 import com.cctv.project.noah.system.core.domain.page.PageDomain;
+import com.cctv.project.noah.system.core.domain.text.Convert;
 import com.cctv.project.noah.system.entity.SysOperLog;
 import com.cctv.project.noah.system.mapper.SysOperLogMapper;
 import com.cctv.project.noah.system.server.OperLogService;
 import com.cctv.project.noah.system.util.JdbcPaginationHelper;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -47,6 +46,21 @@ public class OperLogServerImpl implements OperLogService {
                 "    from sys_oper_log";
         Map<String,Object> paramMap = new HashMap<String, Object>();
         return JdbcPaginationHelper.queryPage(jdbcTemplate,sql,paramMap,pageDomain);
+    }
+
+    @Override
+    public int deleteOperLogByIds(String ids) {
+        return sysOperLogMapper.deleteOperLogByIds(Convert.toStrArray(ids));
+    }
+
+    @Override
+    public void cleanOperLog() {
+        sysOperLogMapper.cleanOperLog();
+    }
+
+    @Override
+    public SysOperLog selectOperLogById(Long operId) {
+        return sysOperLogMapper.selectByPrimaryKey(operId);
     }
 
 }

@@ -16,6 +16,8 @@
     <link th:href="@{/ruoyi/css/ry-ui.css}" rel="stylesheet">
 </head>
 
+
+
 <div th:fragment="ztree-css">
     <link th:href="@{/css/plugins/jquery-ztree/zTreeStyle.css}" rel="stylesheet"/>
 </div>
@@ -26,11 +28,23 @@
 
 <!-- bootstrap-select下拉框插件 -->
 <div th:fragment="bootstrap-select-css">
-    <link th:href="@{/ajax/libs/bootstrap-select/bootstrap-select.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/bootstrap-select/bootstrap-select.css}" rel="stylesheet"/>
 </div>
 <div th:fragment="bootstrap-select-js">
-    <script th:src="@{/ajax/libs/bootstrap-select/bootstrap-select.js}"></script>
+    <script th:src="@{/js/plugins/bootstrap-select/bootstrap-select.js}"></script>
 </div>
+
+
+<!-- bootstrap-select下拉框插件 -->
+<div th:fragment="jquery-jsonview-css">
+    <link th:href="@{/other_plugin/jsonview/jquery.jsonview.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="jquery-jsonview-js">
+    <script th:src="@{/other_plugin/jsonview/jquery.jsonview.js}"></script>
+</div>
+
+
+
 <!-- datetimepicker日期和时间插件 -->
 <div th:fragment="datetimepicker-css">
     <link th:href="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
@@ -42,8 +56,9 @@
 
 <!-- 通用JS -->
 <div th:fragment="footer">
+    <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/jquery-2.1.1.js}"></script>
-    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.3.3.6.min.js}"></script>
 
     <!-- bootstrap-table 表格插件 -->
     <script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
@@ -69,7 +84,7 @@
     <script th:src="@{/js/plugins/layer/layer.min.js}"></script>
     <script th:src="@{/js/plugins/layui/layui.js}"></script>
     <script th:src="@{/ruoyi/js/common.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
+
     <script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
     <script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
     <script th:src="@{/js/jquery.contextMenu.min.js}"></script>

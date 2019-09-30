@@ -1,18 +1,19 @@
 package com.cctv.project.noah.system.controller;
 
+import com.cctv.project.noah.system.annotation.Log;
+import com.cctv.project.noah.system.core.domain.AjaxResult;
 import com.cctv.project.noah.system.core.domain.page.PageDomain;
 import com.cctv.project.noah.system.core.domain.page.TableDataInfo;
+import com.cctv.project.noah.system.enmus.BusinessType;
 import com.cctv.project.noah.system.entity.SysOperLog;
 import com.cctv.project.noah.system.server.OperLogService;
+import com.cctv.project.noah.system.util.poi.ExcelUtil;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/monitor/operlog")
-public class OperLogController extends BaseController{
+public class OperLogController extends BaseController {
 
     private String prefix = "system/operlog";
 
@@ -37,19 +38,51 @@ public class OperLogController extends BaseController{
         return prefix + "/operlog";
     }
 
+    @PostMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(SysOperLog operLog, HttpServletRequest request) {
+        startPage();
+        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+        return getDataTable(list);
+    }
+
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        return toAjax(operLogService.deleteOperLogByIds(ids));
+    }
+
+    @Log(title = "操作日志", businessType = BusinessType.CLEAN)
+    @PostMapping("/clean")
+    @ResponseBody
+    public AjaxResult clean() {
+        operLogService.cleanOperLog();
+        return success();
+    }
+
+    @Log(title = "操作日志", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(SysOperLog operLog) {
+        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+        ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
+        return util.exportExcel(list, "操作日志");
+    }
+
+
+    @GetMapping("/detail/{operId}")
+    public String detail(@PathVariable("operId") Long operId, ModelMap mmap) {
+        mmap.put("operLog", operLogService.selectOperLogById(operId));
+        return prefix + "/detail";
+    }
+
+    //JdbcTemplate事例
 //    @PostMapping("/list")
 //    @ResponseBody
-//    public TableDataInfo list(SysOperLog operLog, HttpServletRequest request){
-//        startPage();
-//        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+//    public TableDataInfo list(SysOperLog operLog, PageDomain pageDomain){
+//        Page<Map<String,Object>> list = operLogService.selectOperLogListMap(operLog,pageDomain);
 //        return getDataTable(list);
 //    }
 
-    @PostMapping("/list")
-    @ResponseBody
-    public TableDataInfo list(SysOperLog operLog, PageDomain pageDomain){
-        Page<Map<String,Object>> list = operLogService.selectOperLogListMap(operLog,pageDomain);
-        return getDataTable(list);
-    }
 
 }

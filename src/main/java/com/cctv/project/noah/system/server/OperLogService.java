@@ -20,4 +20,10 @@ public interface OperLogService {
     List<SysOperLog> selectOperLogList(SysOperLog operLog);
 
     Page<Map<String, Object>> selectOperLogListMap(SysOperLog operLo, PageDomain pageDomain);
+
+    int deleteOperLogByIds(String ids);
+
+    void cleanOperLog();
+
+    SysOperLog selectOperLogById(Long operId);
 }

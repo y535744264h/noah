@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
 	<th:block th:include="include :: header('操作日志详细')" />
-	<th:block th:include="include :: jsonview-css" />
+	<th:block th:include="include :: jquery-jsonview-css" />
 </head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -49,7 +49,7 @@
 	</form>
     </div>
     <th:block th:include="include :: footer" />
-    <th:block th:include="include :: jsonview-js" />
+    <th:block th:include="include :: jquery-jsonview-js" />
     <script th:inline="javascript">
 	    $(function() {
 	    	var json = [[${operLog.operParam}]];

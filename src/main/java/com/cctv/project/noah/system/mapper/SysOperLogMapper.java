@@ -18,4 +18,8 @@ public interface SysOperLogMapper {
     int updateByPrimaryKey(SysOperLog record);
 
     List<SysOperLog> selectOperLogList(SysOperLog operLog);
+
+    int deleteOperLogByIds(String[] ids);
+
+    void cleanOperLog();
 }

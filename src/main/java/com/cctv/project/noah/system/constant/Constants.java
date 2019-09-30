@@ -5,8 +5,7 @@ package com.cctv.project.noah.system.constant;
  * 
  * @author ruoyi
  */
-public class Constants
-{
+public class Constants {
     /**
      * UTF-8 字符集
      */

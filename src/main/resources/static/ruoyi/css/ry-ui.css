@@ -689,6 +689,17 @@ label {
     border: 1px solid #e7eaec;
 }
 
+.btn-light{
+	color: #555;
+	padding: 5px 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: transparent;
+	outline: none;
+	height: 30px;
+	width: 200px;
+}
+
 .select-list .btn-default {
     color: #555;
     padding: 5px 5px;
