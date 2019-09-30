@@ -1,5 +1,4 @@
 package com.cctv.project.noah.system.web;
-
 import com.cctv.project.noah.system.entity.DictData;
 import com.cctv.project.noah.system.server.DictDataService;
 import org.springframework.beans.factory.annotation.Autowired;
