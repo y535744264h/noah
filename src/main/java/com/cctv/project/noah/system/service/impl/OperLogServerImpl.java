@@ -1,10 +1,10 @@
-package com.cctv.project.noah.system.server.impl;
+package com.cctv.project.noah.system.service.impl;
 
 import com.cctv.project.noah.system.core.domain.page.PageDomain;
 import com.cctv.project.noah.system.core.domain.text.Convert;
 import com.cctv.project.noah.system.entity.SysOperLog;
 import com.cctv.project.noah.system.mapper.SysOperLogMapper;
-import com.cctv.project.noah.system.server.OperLogService;
+import com.cctv.project.noah.system.service.OperLogService;
 import com.cctv.project.noah.system.util.JdbcPaginationHelper;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;

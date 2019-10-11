@@ -5,7 +5,7 @@ import com.cctv.project.noah.system.annotation.Log;
 import com.cctv.project.noah.system.enmus.BusinessStatus;
 import com.cctv.project.noah.system.entity.SysOperLog;
 import com.cctv.project.noah.system.entity.SysUser;
-import com.cctv.project.noah.system.server.OperLogService;
+import com.cctv.project.noah.system.service.OperLogService;
 import com.cctv.project.noah.system.util.ServletUtils;
 import com.cctv.project.noah.system.util.StringUtils;
 import com.cctv.project.noah.system.util.json.JSON;

@@ -1,4 +1,4 @@
-package com.cctv.project.noah.system.server;
+package com.cctv.project.noah.system.service;
 
 import com.cctv.project.noah.system.core.domain.page.PageDomain;
 import com.cctv.project.noah.system.entity.SysOperLog;

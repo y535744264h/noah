@@ -3,7 +3,7 @@ package com.cctv.project.noah.system.controller;
 import com.cctv.project.noah.system.entity.SysMenu;
 import com.cctv.project.noah.system.entity.SysUser;
 import com.cctv.project.noah.system.mapper.SysUserMapper;
-import com.cctv.project.noah.system.server.MenuService;
+import com.cctv.project.noah.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

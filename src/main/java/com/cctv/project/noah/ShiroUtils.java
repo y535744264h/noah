@@ -16,4 +16,19 @@ public class ShiroUtils {
     public static SysUser getSysUser() {
         return new SysUser();
     }
+
+    public static String getLoginName() {
+        return "闫浩";
+    }
+
+    public static String randomSalt() {
+        return "123";
+    }
+
+    public static long getUserId() {
+        return 1L;
+    }
+
+    public static void setSysUser(SysUser selectUserById) {
+    }
 }

@@ -1,8 +1,8 @@
-package com.cctv.project.noah.system.server.impl;
+package com.cctv.project.noah.system.service.impl;
 
 import com.cctv.project.noah.system.entity.DictData;
 import com.cctv.project.noah.system.mapper.DictDataMapper;
-import com.cctv.project.noah.system.server.DictDataService;
+import com.cctv.project.noah.system.service.DictDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

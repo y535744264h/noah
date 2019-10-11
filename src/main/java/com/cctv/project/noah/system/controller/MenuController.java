@@ -6,7 +6,7 @@ import com.cctv.project.noah.system.core.domain.AjaxResult;
 import com.cctv.project.noah.system.core.domain.Ztree;
 import com.cctv.project.noah.system.enmus.BusinessType;
 import com.cctv.project.noah.system.entity.SysMenu;
-import com.cctv.project.noah.system.server.MenuService;
+import com.cctv.project.noah.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

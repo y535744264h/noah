@@ -46,4 +46,18 @@ public interface SysUserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(SysUser record);
+
+    List<SysUser> selectUserList(SysUser user);
+
+    SysUser checkPhoneUnique(String phoneNumber);
+
+    int checkLoginNameUnique(String loginName);
+
+    SysUser checkEmailUnique(String email);
+
+    int updateUser(SysUser user);
+
+    int deleteUserByIds(Long[] userIds);
+
+    SysUser selectUserByLoginName(String loginName);
 }

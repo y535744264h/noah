@@ -1,11 +1,11 @@
-package com.cctv.project.noah.system.server.impl;
+package com.cctv.project.noah.system.service.impl;
 
 import com.cctv.project.noah.system.constant.UserConstants;
 import com.cctv.project.noah.system.core.domain.Ztree;
 import com.cctv.project.noah.system.entity.SysMenu;
 import com.cctv.project.noah.system.entity.SysUser;
 import com.cctv.project.noah.system.mapper.SysMenuMapper;
-import com.cctv.project.noah.system.server.MenuService;
+import com.cctv.project.noah.system.service.MenuService;
 import com.cctv.project.noah.system.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
