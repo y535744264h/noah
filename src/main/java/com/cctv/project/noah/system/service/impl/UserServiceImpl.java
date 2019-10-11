@@ -206,7 +206,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int changeStatus(SysUser user) {
-        return 0;
+        if (SysUser.isAdmin(user.getUserId())) {
+            throw new BusinessException("不允许修改超级管理员用户");
+        }
+        return sysUserMapper.updateUser(user);
     }
 
 
