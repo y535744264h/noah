@@ -1,5 +1,6 @@
 package com.cctv.project.noah.system.service.impl;
 
+import com.cctv.project.noah.system.core.domain.text.Convert;
 import com.cctv.project.noah.system.entity.DictData;
 import com.cctv.project.noah.system.mapper.DictDataMapper;
 import com.cctv.project.noah.system.service.DictDataService;
@@ -28,5 +29,30 @@ public class DictDataServiceImpl implements DictDataService {
     @Override
     public String selectDictLabel(String dictType, String dictValue) {
         return dictDataMapper.selectDictLabel(dictType,dictValue);
+    }
+
+    @Override
+    public List<DictData> selectDictDataList(DictData dictData) {
+        return dictDataMapper.selectDictDataList(dictData);
+    }
+
+    @Override
+    public int insertDictData(DictData dict) {
+        return dictDataMapper.insertDictData(dict);
+    }
+
+    @Override
+    public DictData selectDictDataById(Long dictCode) {
+        return dictDataMapper.selectDictDataById(dictCode);
+    }
+
+    @Override
+    public int updateDictData(DictData dict) {
+        return dictDataMapper.updateDictData(dict);
+    }
+
+    @Override
+    public int deleteDictDataByIds(String ids) {
+        return dictDataMapper.deleteDictDataByIds(Convert.toStrArray(ids));
     }
 }

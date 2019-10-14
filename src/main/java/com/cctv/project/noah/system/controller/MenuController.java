@@ -1,11 +1,13 @@
 package com.cctv.project.noah.system.controller;
 
+import com.cctv.project.noah.ShiroUtils;
 import com.cctv.project.noah.system.annotation.Log;
 import com.cctv.project.noah.system.constant.UserConstants;
 import com.cctv.project.noah.system.core.domain.AjaxResult;
 import com.cctv.project.noah.system.core.domain.Ztree;
 import com.cctv.project.noah.system.enmus.BusinessType;
 import com.cctv.project.noah.system.entity.SysMenu;
+import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/system/menu")
-public class MenuController extends BaseController{
+public class MenuController extends BaseController {
 
     private String prefix = "system/menu";
 
@@ -32,16 +34,15 @@ public class MenuController extends BaseController{
 
 
     @GetMapping()
-    public String menu()
-    {
+    public String menu() {
         return prefix + "/index";
     }
 
     @ResponseBody
     @RequestMapping("/list")
-    public List<SysMenu> list(SysMenu menu){
-        Long userId=UserIdUtil.user_id;
-        return menuService.selectMenuList(menu,userId);
+    public List<SysMenu> list(SysMenu menu) {
+        Long userId = UserIdUtil.user_id;
+        return menuService.selectMenuList(menu, userId);
     }
 
     /**
@@ -52,7 +53,7 @@ public class MenuController extends BaseController{
         SysMenu menu = null;
         if (0L != parentId) {
             menu = menuService.selectMenuById(parentId);
-        }else{
+        } else {
             menu = new SysMenu();
             menu.setMenuId(0L);
             menu.setMenuName("主目录");
@@ -91,7 +92,7 @@ public class MenuController extends BaseController{
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(@Validated SysMenu menu){
+    public AjaxResult editSave(@Validated SysMenu menu) {
         if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
@@ -115,11 +116,6 @@ public class MenuController extends BaseController{
         }
         return toAjax(menuService.deleteMenuById(menuId));
     }
-
-
-
-
-
 
 
     /**
@@ -155,8 +151,19 @@ public class MenuController extends BaseController{
     @GetMapping("/menuTreeData")
     @ResponseBody
     public List<Ztree> menuTreeData() {
-        Long userId=UserIdUtil.user_id;
+        Long userId = UserIdUtil.user_id;
         List<Ztree> ztrees = menuService.menuTreeData(userId);
+        return ztrees;
+    }
+
+    /**
+     * 加载角色菜单列表树
+     */
+    @GetMapping("/roleMenuTreeData")
+    @ResponseBody
+    public List<Ztree> roleMenuTreeData(SysRole role) {
+        Long userId = ShiroUtils.getUserId();
+        List<Ztree> ztrees = menuService.roleMenuTreeData(role, userId);
         return ztrees;
     }
 

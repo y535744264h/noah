@@ -2,6 +2,7 @@ package com.cctv.project.noah.system.service;
 
 import com.cctv.project.noah.system.core.domain.Ztree;
 import com.cctv.project.noah.system.entity.SysMenu;
+import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.entity.SysUser;
 
 import java.util.List;
@@ -35,4 +36,6 @@ public interface MenuService {
     int selectCountRoleMenuByMenuId(Long menuId);
 
     int deleteMenuById(Long menuId);
+
+    List<Ztree> roleMenuTreeData(SysRole role, Long userId);
 }

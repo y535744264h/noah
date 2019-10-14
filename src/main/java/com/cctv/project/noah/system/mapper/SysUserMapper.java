@@ -60,4 +60,8 @@ public interface SysUserMapper {
     int deleteUserByIds(Long[] userIds);
 
     SysUser selectUserByLoginName(String loginName);
+
+    List<SysUser> selectAllocatedList(SysUser user);
+
+    List<SysUser> selectUnallocatedList(SysUser user);
 }

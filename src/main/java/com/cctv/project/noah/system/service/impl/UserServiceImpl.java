@@ -47,12 +47,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<SysUser> selectAllocatedList(SysUser user) {
-        return null;
+        return sysUserMapper.selectAllocatedList(user);
     }
 
     @Override
     public List<SysUser> selectUnallocatedList(SysUser user) {
-        return null;
+        return sysUserMapper.selectUnallocatedList(user);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.cctv.project.noah.system.service.impl;
 import com.cctv.project.noah.system.constant.UserConstants;
 import com.cctv.project.noah.system.core.domain.Ztree;
 import com.cctv.project.noah.system.entity.SysMenu;
+import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.entity.SysUser;
 import com.cctv.project.noah.system.mapper.SysMenuMapper;
 import com.cctv.project.noah.system.service.MenuService;
@@ -97,6 +98,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public int deleteMenuById(Long menuId) {
         return sysMenuMapper.deleteByPrimaryKey(menuId);
+    }
+
+    @Override
+    public List<Ztree> roleMenuTreeData(SysRole role, Long userId) {
+        Long roleId = role.getRoleId();
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        List<SysMenu> menuList = selectMenuList(null,userId);
+        if (StringUtils.isNotNull(roleId)) {
+            List<String> roleMenuList = sysMenuMapper.selectMenuTree(roleId);
+            ztrees = initZtree(menuList, roleMenuList, true);
+        } else {
+            ztrees = initZtree(menuList, null, true);
+        }
+        return ztrees;
     }
 
     public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {

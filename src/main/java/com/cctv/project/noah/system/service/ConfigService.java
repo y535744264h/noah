@@ -1,5 +1,9 @@
 package com.cctv.project.noah.system.service;
 
+import com.cctv.project.noah.system.entity.SysConfig;
+
+import java.util.List;
+
 /**
  * @author by yanhao
  * @Classname ConfigService
@@ -8,4 +12,16 @@ package com.cctv.project.noah.system.service;
  */
 public interface ConfigService {
     String selectConfigByKey(String s);
+
+    List<SysConfig> selectConfigList(SysConfig config);
+
+    String checkConfigKeyUnique(SysConfig config);
+
+    int insertConfig(SysConfig config);
+
+    SysConfig selectConfigById(Long configId);
+
+    int updateConfig(SysConfig config);
+
+    int deleteConfigByIds(String ids);
 }

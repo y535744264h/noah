@@ -33,4 +33,6 @@ public interface SysMenuMapper {
     int selectCountMenuByParentId(Long menuId);
 
     int selectCountRoleMenuByMenuId(Long menuId);
+
+    List<String> selectMenuTree(Long roleId);
 }

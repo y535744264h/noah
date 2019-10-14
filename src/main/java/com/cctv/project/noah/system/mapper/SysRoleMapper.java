@@ -20,4 +20,14 @@ public interface SysRoleMapper {
     List<SysRole> selectRoleList(SysRole role);
 
     List<SysRole> selectRolesByUserId(Long userId);
+
+    SysRole checkRoleNameUnique(String roleName);
+
+    SysRole checkRoleKeyUnique(String roleKey);
+
+    SysRole selectRoleById(Long roleId);
+
+    int insertRole(SysRole role);
+
+    int updateRole(SysRole role);
 }

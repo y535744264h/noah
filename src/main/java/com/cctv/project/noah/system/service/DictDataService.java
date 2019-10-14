@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author by yanhao
- * @Classname SysDictDataService
+ * @Classname DictDataService
  * @Description TODO
  * @Date 2019/9/29 2:32 下午
  */
@@ -16,4 +16,14 @@ public interface DictDataService {
     List<DictData> selectDictDataByType(String dictType);
 
     String selectDictLabel(String dictType, String dictValue);
+
+    List<DictData> selectDictDataList(DictData dictData);
+
+    int insertDictData(DictData dict);
+
+    DictData selectDictDataById(Long dictCode);
+
+    int updateDictData(DictData dict);
+
+    int deleteDictDataByIds(String ids);
 }

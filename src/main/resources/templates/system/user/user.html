@@ -142,20 +142,20 @@
 		    };
 		    $.table.init(options);
 		}
-		
+
 
 		$('#btnExpand').click(function() {
 			$._tree.expandAll(true);
 		    $(this).hide();
 		    $('#btnCollapse').show();
 		});
-		
+
 		$('#btnCollapse').click(function() {
 			$._tree.expandAll(false);
 		    $(this).hide();
 		    $('#btnExpand').show();
 		});
-		
+
 		$('#btnRefresh').click(function() {
 			queryDeptTree();
 		});
@@ -166,7 +166,7 @@
 		    var url = prefix + '/resetPwd/' + userId;
 		    $.modal.open("重置密码", url, '800', '300');
 		}
-		
+
 		/* 用户状态显示 */
 		function statusTools(row) {
 		    if (row.status == 1) {
@@ -175,7 +175,7 @@
     			return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.userId + '\')"></i> ';
     		}
 		}
-		
+
 		/* 用户管理-停用 */
 		function disable(userId) {
 			$.modal.confirm("确认要停用用户吗？", function() {
