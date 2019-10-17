@@ -27,7 +27,6 @@ import java.util.Map;
 
 /**
  * 操作日志记录处理
- * 
  */
 @Aspect
 @Component
@@ -55,9 +54,9 @@ public class LogAspect {
 
     /**
      * 拦截异常操作
-     * 
+     *
      * @param joinPoint 切点
-     * @param e 异常
+     * @param e         异常
      */
     @AfterThrowing(value = "logPointCut()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Exception e) {
@@ -108,9 +107,7 @@ public class LogAspect {
             operLog.setOperTime(new Date());
             operLogService.insOperLog(operLog);
             //AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
-        }
-        catch (Exception exp)
-        {
+        } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
@@ -120,12 +117,12 @@ public class LogAspect {
 
     /**
      * 获取注解中对方法的描述信息 用于Controller层注解
-     * 
-     * @param log 日志
+     *
+     * @param log     日志
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(Log log, SysOperLog operLog) throws Exception{
+    public void getControllerMethodDescription(Log log, SysOperLog operLog) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
@@ -133,7 +130,7 @@ public class LogAspect {
         // 设置操作人类别
         operLog.setOperatorType(log.operatorType().ordinal());
         // 是否需要保存request，参数和值
-        if (log.isSaveRequestData()){
+        if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。
             setRequestValue(operLog);
         }
@@ -141,12 +138,11 @@ public class LogAspect {
 
     /**
      * 获取请求的参数，放到log中
-     * 
+     *
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(SysOperLog operLog) throws Exception
-    {
+    private void setRequestValue(SysOperLog operLog) throws Exception {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
         String params = JSON.marshal(map);
         operLog.setOperParam(StringUtils.substring(params, 0, 2000));
@@ -155,14 +151,12 @@ public class LogAspect {
     /**
      * 是否存在注解，如果存在就获取
      */
-    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception
-    {
+    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
 
-        if (method != null)
-        {
+        if (method != null) {
             return method.getAnnotation(Log.class);
         }
         return null;

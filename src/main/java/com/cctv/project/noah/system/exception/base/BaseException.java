@@ -1,11 +1,10 @@
 package com.cctv.project.noah.system.exception.base;
+
 import com.cctv.project.noah.system.util.MessageUtils;
 import com.cctv.project.noah.system.util.StringUtils;
 
 /**
  * 基础异常
- *
- * @author ruoyi
  */
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;

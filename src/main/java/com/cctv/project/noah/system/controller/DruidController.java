@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * druid 监控
- *
- * @author ruoyi
  */
 @Controller
 @RequestMapping("/monitor/data")

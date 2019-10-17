@@ -20,28 +20,23 @@ import java.util.List;
 
 /**
  * 数据字典信息
- * 
- * @author ruoyi
  */
 @Controller
 @RequestMapping("/system/dict")
-public class DictTypeController extends BaseController
-{
+public class DictTypeController extends BaseController {
     private String prefix = "system/dict/type";
 
     @Autowired
     private DictTypeService dictTypeService;
 
     @GetMapping()
-    public String dictType()
-    {
+    public String dictType() {
         return prefix + "/type";
     }
 
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(DictType dictType)
-    {
+    public TableDataInfo list(DictType dictType) {
         startPage();
         List<DictType> list = dictTypeService.selectDictTypeList(dictType);
         return getDataTable(list);
@@ -50,8 +45,7 @@ public class DictTypeController extends BaseController
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(DictType dictType)
-    {
+    public AjaxResult export(DictType dictType) {
 
         List<DictType> list = dictTypeService.selectDictTypeList(dictType);
         ExcelUtil<DictType> util = new ExcelUtil<DictType>(DictType.class);
@@ -62,8 +56,7 @@ public class DictTypeController extends BaseController
      * 新增字典类型
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -73,10 +66,8 @@ public class DictTypeController extends BaseController
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@Validated DictType dict)
-    {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
-        {
+    public AjaxResult addSave(@Validated DictType dict) {
+        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
             return error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setCreateBy(ShiroUtils.getLoginName());
@@ -87,8 +78,7 @@ public class DictTypeController extends BaseController
      * 修改字典类型
      */
     @GetMapping("/edit/{dictId}")
-    public String edit(@PathVariable("dictId") Long dictId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("dictId") Long dictId, ModelMap mmap) {
         mmap.put("dict", dictTypeService.selectDictTypeById(dictId));
         return prefix + "/edit";
     }
@@ -99,10 +89,8 @@ public class DictTypeController extends BaseController
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(@Validated DictType dict)
-    {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
-        {
+    public AjaxResult editSave(@Validated DictType dict) {
+        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
             return error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setUpdateBy(ShiroUtils.getLoginName());
@@ -112,14 +100,10 @@ public class DictTypeController extends BaseController
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
-        try
-        {
+    public AjaxResult remove(String ids) {
+        try {
             return toAjax(dictTypeService.deleteDictTypeByIds(ids));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return error(e.getMessage());
         }
     }
@@ -128,8 +112,7 @@ public class DictTypeController extends BaseController
      * 查询字典详细
      */
     @GetMapping("/detail/{dictId}")
-    public String detail(@PathVariable("dictId") Long dictId, ModelMap mmap)
-    {
+    public String detail(@PathVariable("dictId") Long dictId, ModelMap mmap) {
         mmap.put("dict", dictTypeService.selectDictTypeById(dictId));
         mmap.put("dictList", dictTypeService.selectDictTypeAll());
         return "system/dict/data/data";
@@ -140,8 +123,7 @@ public class DictTypeController extends BaseController
      */
     @PostMapping("/checkDictTypeUnique")
     @ResponseBody
-    public String checkDictTypeUnique(DictType dictType)
-    {
+    public String checkDictTypeUnique(DictType dictType) {
         return dictTypeService.checkDictTypeUnique(dictType);
     }
 
@@ -150,8 +132,7 @@ public class DictTypeController extends BaseController
      */
     @GetMapping("/selectDictTree/{columnId}/{dictType}")
     public String selectDeptTree(@PathVariable("columnId") Long columnId, @PathVariable("dictType") String dictType,
-                                 ModelMap mmap)
-    {
+                                 ModelMap mmap) {
         mmap.put("columnId", columnId);
         mmap.put("dict", dictTypeService.selectDictTypeByType(dictType));
         return prefix + "/tree";
@@ -162,8 +143,7 @@ public class DictTypeController extends BaseController
      */
     @GetMapping("/treeData")
     @ResponseBody
-    public List<Ztree> treeData()
-    {
+    public List<Ztree> treeData() {
         List<Ztree> ztrees = dictTypeService.selectDictTree(new DictType());
         return ztrees;
     }

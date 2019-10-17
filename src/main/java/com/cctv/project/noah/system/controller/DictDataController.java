@@ -1,4 +1,5 @@
 package com.cctv.project.noah.system.controller;
+
 import com.cctv.project.noah.ShiroUtils;
 import com.cctv.project.noah.system.annotation.Log;
 import com.cctv.project.noah.system.core.domain.AjaxResult;
@@ -17,28 +18,23 @@ import java.util.List;
 
 /**
  * 数据字典信息
- *
- * @author ruoyi
  */
 @Controller
 @RequestMapping("/system/dict/data")
-public class DictDataController extends BaseController
-{
+public class DictDataController extends BaseController {
     private String prefix = "system/dict/data";
 
     @Autowired
     private DictDataService dictDataService;
 
     @GetMapping()
-    public String dictData()
-    {
+    public String dictData() {
         return prefix + "/data";
     }
 
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(DictData dictData)
-    {
+    public TableDataInfo list(DictData dictData) {
         startPage();
         List<DictData> list = dictDataService.selectDictDataList(dictData);
         return getDataTable(list);
@@ -47,8 +43,7 @@ public class DictDataController extends BaseController
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(DictData dictData)
-    {
+    public AjaxResult export(DictData dictData) {
         List<DictData> list = dictDataService.selectDictDataList(dictData);
         ExcelUtil<DictData> util = new ExcelUtil<DictData>(DictData.class);
         return util.exportExcel(list, "字典数据");
@@ -58,8 +53,7 @@ public class DictDataController extends BaseController
      * 新增字典类型
      */
     @GetMapping("/add/{dictType}")
-    public String add(@PathVariable("dictType") String dictType, ModelMap mmap)
-    {
+    public String add(@PathVariable("dictType") String dictType, ModelMap mmap) {
         mmap.put("dictType", dictType);
         return prefix + "/add";
     }
@@ -70,8 +64,7 @@ public class DictDataController extends BaseController
     @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@Validated DictData dict)
-    {
+    public AjaxResult addSave(@Validated DictData dict) {
         dict.setCreateBy(ShiroUtils.getLoginName());
         return toAjax(dictDataService.insertDictData(dict));
     }
@@ -80,8 +73,7 @@ public class DictDataController extends BaseController
      * 修改字典类型
      */
     @GetMapping("/edit/{dictCode}")
-    public String edit(@PathVariable("dictCode") Long dictCode, ModelMap mmap)
-    {
+    public String edit(@PathVariable("dictCode") Long dictCode, ModelMap mmap) {
         mmap.put("dict", dictDataService.selectDictDataById(dictCode));
         return prefix + "/edit";
     }
@@ -92,8 +84,7 @@ public class DictDataController extends BaseController
     @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(@Validated DictData dict)
-    {
+    public AjaxResult editSave(@Validated DictData dict) {
         dict.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(dictDataService.updateDictData(dict));
     }
@@ -101,8 +92,7 @@ public class DictDataController extends BaseController
     @Log(title = "字典数据", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(dictDataService.deleteDictDataByIds(ids));
     }
 }

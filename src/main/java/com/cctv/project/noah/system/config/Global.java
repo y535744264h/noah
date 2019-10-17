@@ -11,8 +11,6 @@ import java.util.Map;
 
 /**
  * 全局配置类
- *
- * @author ruoyi
  */
 public class Global {
     private static final Logger log = LoggerFactory.getLogger(Global.class);
