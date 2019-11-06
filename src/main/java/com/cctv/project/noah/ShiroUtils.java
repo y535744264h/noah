@@ -15,7 +15,6 @@ import org.apache.shiro.subject.Subject;
 /**
  * @author by yanhao
  * @Classname ShiroUtils
- * @Description TODO
  * @Date 2019/9/18 10:16 上午
  */
 public class ShiroUtils {
