@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
 				<form id="operlog-form">
-					<div class="select-list">
+					<div class="select-list col-sm-12">
 						<ul>
 							<li>
 								<label>系统模块： </label><input type="text" name="title"/>
@@ -28,6 +28,10 @@
 								<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 							</select>
 							</li>
+						</ul>
+					</div>
+					<div class="select-list col-sm-12">
+						<ul>
 							<li class="select-time">
 								<label>操作时间： </label>
 								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
@@ -42,18 +46,18 @@
 					</div>
 				</form>
 			</div>
-			
+
 			<div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
-		            <i class="fa fa-remove"></i> 删除
-		        </a>
-		        <a class="btn btn-danger" onclick="$.operate.clean()">
-	                <i class="fa fa-trash"></i> 清空
-	            </a>
-	            <a class="btn btn-warning" onclick="$.table.exportExcel()">
-		            <i class="fa fa-download"></i> 导出
-		        </a>
-	        </div>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="monitor:operlog:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-danger" onclick="$.operate.clean()" shiro:hasPermission="monitor:operlog:remove">
+					<i class="fa fa-trash"></i> 清空
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="monitor:operlog:export">
+					<i class="fa fa-download"></i> 导出
+				</a>
+			</div>
 	        
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -65,7 +69,7 @@
 	<th:block th:include="include :: bootstrap-select-js" />
 	<script th:inline="javascript">
 
-		var detailFlag = "";
+		var detailFlag = [[${@permission.hasPermi('monitor:operlog:detail')}]];
 		var oper_datas = [[${@dict.getType('sys_oper_type')}]];
 		var common_datas = [[${@dict.getType('sys_common_status')}]];
 		var prefix = ctx + "monitor/operlog";
@@ -107,18 +111,6 @@
 		            field: 'operName',
 		            title: '操作人员',
 		            sortable: true
-		        },
-		        {
-		            field: 'deptName',
-		            title: '部门名称'
-		        },
-		        {
-		            field: 'operIp',
-		            title: '主机'
-		        },
-		        {
-		            field: 'operLocation',
-		            title: '操作地点'
 		        },
 		        {
 		            field: 'status',

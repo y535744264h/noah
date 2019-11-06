@@ -13,6 +13,7 @@ import com.cctv.project.noah.system.service.RoleService;
 import com.cctv.project.noah.system.service.UserService;
 import com.cctv.project.noah.system.util.StringUtils;
 import com.cctv.project.noah.system.util.poi.ExcelUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,31 +40,39 @@ public class UserController extends BaseController {
     @Autowired
     private PasswordService passwordService;
 
+    /** 页面跳转 */
     @GetMapping()
+    @RequiresPermissions("system:user:view")
     public String user() {
         return prefix + "/user";
     }
 
-    @PostMapping("/list")
+    /** 列表数据 */
     @ResponseBody
+    @PostMapping("/list")
+    @RequiresPermissions("system:user:list")
     public TableDataInfo list(SysUser user) {
         startPage();
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
     }
 
-    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
+    /** 导出 */
     @ResponseBody
+    @PostMapping("/export")
+    @RequiresPermissions("system:user:export")
+    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     public AjaxResult export(SysUser user) {
-        List<SysUser> list = userService.selectUserList(user);
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
+        List<SysUser> list = userService.selectUserList(user);
         return util.exportExcel(list, "用户数据");
     }
 
-    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-    @PostMapping("/importData")
+    /** 导入 */
     @ResponseBody
+    @PostMapping("/importData")
+    @RequiresPermissions("system:user:import")
+    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         List<SysUser> userList = util.importExcel(file.getInputStream());
@@ -72,8 +81,10 @@ public class UserController extends BaseController {
         return AjaxResult.success(message);
     }
 
-    @GetMapping("/importTemplate")
+    /** 下载模版 */
     @ResponseBody
+    @GetMapping("/importTemplate")
+    @RequiresPermissions("system:user:view")
     public AjaxResult importTemplate() {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         return util.importTemplateExcel("用户数据");
@@ -83,6 +94,7 @@ public class UserController extends BaseController {
      * 新增用户
      */
     @GetMapping("/add")
+    @RequiresPermissions("system:user:add")
     public String add(ModelMap mmap) {
         mmap.put("roles", roleService.selectRoleAll());
         return prefix + "/add";
@@ -91,9 +103,10 @@ public class UserController extends BaseController {
     /**
      * 新增保存用户
      */
-    @Log(title = "用户管理", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
     @ResponseBody
+    @PostMapping("/add")
+    @RequiresPermissions("system:user:add")
+    @Log(title = "用户管理", businessType = BusinessType.INSERT)
     public AjaxResult addSave(@Validated SysUser user) {
         if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName()))) {
             return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
@@ -118,12 +131,14 @@ public class UserController extends BaseController {
         return prefix + "/edit";
     }
 
+
     /**
      * 修改保存用户
      */
-    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
     @ResponseBody
+    @PostMapping("/edit")
+    @RequiresPermissions("system:user:edit")
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     public AjaxResult editSave(@Validated SysUser user) {
         if (StringUtils.isNotNull(user.getUserId()) && SysUser.isAdmin(user.getUserId())) {
             return error("不允许修改超级管理员用户");
@@ -136,16 +151,18 @@ public class UserController extends BaseController {
         return toAjax(userService.updateUser(user));
     }
 
-    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @GetMapping("/resetPwd/{userId}")
+    @RequiresPermissions("system:user:resetPwd")
+    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     public String resetPwd(@PathVariable("userId") Long userId, ModelMap mmap) {
         mmap.put("user", userService.selectUserById(userId));
         return prefix + "/resetPwd";
     }
 
-    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
-    @PostMapping("/resetPwd")
     @ResponseBody
+    @PostMapping("/resetPwd")
+    @RequiresPermissions("system:user:resetPwd")
+    @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     public AjaxResult resetPwdSave(SysUser user) {
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
@@ -158,9 +175,10 @@ public class UserController extends BaseController {
         return error();
     }
 
-    @Log(title = "用户管理", businessType = BusinessType.DELETE)
-    @PostMapping("/remove")
     @ResponseBody
+    @PostMapping("/remove")
+    @RequiresPermissions("system:user:remove")
+    @Log(title = "用户管理", businessType = BusinessType.DELETE)
     public AjaxResult remove(String ids) {
         try {
             return toAjax(userService.deleteUserByIds(ids));
@@ -199,9 +217,10 @@ public class UserController extends BaseController {
     /**
      * 用户状态修改
      */
-    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
-    @PostMapping("/changeStatus")
     @ResponseBody
+    @PostMapping("/changeStatus")
+    @RequiresPermissions("system:user:edit")
+    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     public AjaxResult changeStatus(SysUser user) {
         return toAjax(userService.changeStatus(user));
     }

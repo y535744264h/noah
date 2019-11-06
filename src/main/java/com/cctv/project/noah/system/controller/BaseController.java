@@ -55,6 +55,22 @@ public class BaseController {
         }
     }
 
+    protected void startPage(int num,int size,String isAsc,String orderByColumn){
+        PageDomain pageDomain = new PageDomain();
+        pageDomain.setPageNum(num);
+        pageDomain.setPageSize(size);
+
+        pageDomain.setIsAsc(isAsc);
+        pageDomain.setOrderByColumn(orderByColumn);
+
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            PageHelper.startPage(pageNum, pageSize, orderBy);
+        }
+    }
+
     /**
      * 获取request
      */

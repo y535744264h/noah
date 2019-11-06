@@ -1,5 +1,6 @@
 package com.cctv.project.noah.system.controller;
 
+import com.cctv.project.noah.ShiroUtils;
 import com.cctv.project.noah.system.entity.SysMenu;
 import com.cctv.project.noah.system.entity.SysUser;
 import com.cctv.project.noah.system.mapper.SysUserMapper;
@@ -34,7 +35,7 @@ public class IndexController extends BaseController{
     @GetMapping("/system/main")
     public String index(ModelMap mmap){
         // 取身份信息
-        SysUser user = sysUserMapper.selectByPrimaryKey(2L);
+        SysUser user = ShiroUtils.getSysUser();
         // 根据用户id取出菜单
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);

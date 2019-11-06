@@ -42,19 +42,19 @@
 				</div>
 				
 		        <div class="btn-group-sm" id="toolbar" role="group">
-		        	<a class="btn btn-success" onclick="$.operate.addTab()" >
+		        	<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:user:add">
 		                <i class="fa fa-plus"></i> 新增
 		            </a>
-		             <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" >
+		             <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="system:user:edit">
 			            <i class="fa fa-edit"></i> 修改
 			        </a>
-		            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" >
+		            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:user:remove" >
 		                <i class="fa fa-remove"></i> 删除
 		            </a>
-		            <a class="btn btn-info" onclick="$.table.importExcel()" >
+		            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:user:import">
 			            <i class="fa fa-upload"></i> 导入
 			        </a>
-		            <a class="btn btn-warning" onclick="$.table.exportExcel()" >
+		            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:user:export">
 			            <i class="fa fa-download"></i> 导出
 			        </a>
 		        </div>
@@ -69,9 +69,10 @@
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: ztree-js" />
 	<script th:inline="javascript">
-		var editFlag = "";
-		var removeFlag = "";
-		var resetPwdFlag = "";
+
+		var editFlag = [[${@permission.hasPermi('system:user:edit')}]];
+		var removeFlag = [[${@permission.hasPermi('system:user:remove')}]];
+		var resetPwdFlag = [[${@permission.hasPermi('system:user:resetPwd')}]];
 		var prefix = ctx + "system/user";
 
 		$(function() {

@@ -9,6 +9,7 @@ import com.cctv.project.noah.system.enmus.BusinessType;
 import com.cctv.project.noah.system.entity.SysMenu;
 import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.service.MenuService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,14 +35,16 @@ public class MenuController extends BaseController {
 
 
     @GetMapping()
+    @RequiresPermissions("system:menu:view")
     public String menu() {
         return prefix + "/index";
     }
 
     @ResponseBody
     @RequestMapping("/list")
+    @RequiresPermissions("system:menu:list")
     public List<SysMenu> list(SysMenu menu) {
-        Long userId = UserIdUtil.user_id;
+        Long userId = ShiroUtils.getUserId();
         return menuService.selectMenuList(menu, userId);
     }
 
@@ -49,6 +52,7 @@ public class MenuController extends BaseController {
      * 新增
      */
     @GetMapping("/add/{parentId}")
+    @RequiresPermissions("system:menu:add")
     public String add(@PathVariable("parentId") Long parentId, ModelMap mmap) {
         SysMenu menu = null;
         if (0L != parentId) {
@@ -65,9 +69,10 @@ public class MenuController extends BaseController {
     /**
      * 新增保存菜单
      */
-    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
     @ResponseBody
+    @PostMapping("/add")
+    @RequiresPermissions("system:menu:add")
+    @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     public AjaxResult addSave(@Validated SysMenu menu) {
         if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
             return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -81,6 +86,7 @@ public class MenuController extends BaseController {
      * 修改菜单
      */
     @GetMapping("/edit/{menuId}")
+    @RequiresPermissions("system:menu:edit")
     public String edit(@PathVariable("menuId") Long menuId, ModelMap mmap) {
         mmap.put("menu", menuService.selectMenuById(menuId));
         return prefix + "/edit";
@@ -89,9 +95,10 @@ public class MenuController extends BaseController {
     /**
      * 修改保存菜单
      */
-    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
     @ResponseBody
+    @PostMapping("/edit")
+    @RequiresPermissions("system:menu:edit")
+    @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     public AjaxResult editSave(@Validated SysMenu menu) {
         if (UserConstants.MENU_NAME_NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -104,9 +111,10 @@ public class MenuController extends BaseController {
     /**
      * 删除菜单
      */
-    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
-    @GetMapping("/remove/{menuId}")
     @ResponseBody
+    @GetMapping("/remove/{menuId}")
+    @RequiresPermissions("system:menu:remove")
+    @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     public AjaxResult remove(@PathVariable("menuId") Long menuId) {
         if (menuService.selectCountMenuByParentId(menuId) > 0) {
             return AjaxResult.warn("存在子菜单,不允许删除");
@@ -121,8 +129,8 @@ public class MenuController extends BaseController {
     /**
      * 校验菜单名称
      */
-    @PostMapping("/checkMenuNameUnique")
     @ResponseBody
+    @PostMapping("/checkMenuNameUnique")
     public String checkMenuNameUnique(SysMenu menu) {
         return menuService.checkMenuNameUnique(menu);
     }
@@ -148,10 +156,10 @@ public class MenuController extends BaseController {
     /**
      * 加载所有菜单列表树
      */
-    @GetMapping("/menuTreeData")
     @ResponseBody
+    @GetMapping("/menuTreeData")
     public List<Ztree> menuTreeData() {
-        Long userId = UserIdUtil.user_id;
+        Long userId = ShiroUtils.getUserId();
         List<Ztree> ztrees = menuService.menuTreeData(userId);
         return ztrees;
     }
@@ -159,8 +167,8 @@ public class MenuController extends BaseController {
     /**
      * 加载角色菜单列表树
      */
-    @GetMapping("/roleMenuTreeData")
     @ResponseBody
+    @GetMapping("/roleMenuTreeData")
     public List<Ztree> roleMenuTreeData(SysRole role) {
         Long userId = ShiroUtils.getUserId();
         List<Ztree> ztrees = menuService.roleMenuTreeData(role, userId);

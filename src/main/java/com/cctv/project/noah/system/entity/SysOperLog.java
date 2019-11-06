@@ -2,6 +2,7 @@ package com.cctv.project.noah.system.entity;
 
 import com.cctv.project.noah.system.annotation.Excel;
 import com.cctv.project.noah.system.core.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -38,21 +39,10 @@ public class SysOperLog extends BaseEntity {
     @Excel(name = "操作人员")
     private String operName;
 
-    /** 部门名称 */
-    @Excel(name = "部门名称")
-    private String deptName;
 
     /** 请求url */
     @Excel(name = "请求地址")
     private String operUrl;
-
-    /** 操作地址 */
-    @Excel(name = "操作地址")
-    private String operIp;
-
-    /** 操作地点 */
-    @Excel(name = "操作地点")
-    private String operLocation;
 
     /** 请求参数 */
     @Excel(name = "请求参数")
@@ -68,6 +58,7 @@ public class SysOperLog extends BaseEntity {
 
     /** 操作时间 */
     @Excel(name = "操作时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date operTime;
 
     private static final long serialVersionUID = 1L;
@@ -128,13 +119,6 @@ public class SysOperLog extends BaseEntity {
         this.operName = operName == null ? null : operName.trim();
     }
 
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName == null ? null : deptName.trim();
-    }
 
     public String getOperUrl() {
         return operUrl;
@@ -144,21 +128,6 @@ public class SysOperLog extends BaseEntity {
         this.operUrl = operUrl == null ? null : operUrl.trim();
     }
 
-    public String getOperIp() {
-        return operIp;
-    }
-
-    public void setOperIp(String operIp) {
-        this.operIp = operIp == null ? null : operIp.trim();
-    }
-
-    public String getOperLocation() {
-        return operLocation;
-    }
-
-    public void setOperLocation(String operLocation) {
-        this.operLocation = operLocation == null ? null : operLocation.trim();
-    }
 
     public String getOperParam() {
         return operParam;
@@ -213,10 +182,7 @@ public class SysOperLog extends BaseEntity {
         sb.append(", requestMethod=").append(requestMethod);
         sb.append(", operatorType=").append(operatorType);
         sb.append(", operName=").append(operName);
-        sb.append(", deptName=").append(deptName);
         sb.append(", operUrl=").append(operUrl);
-        sb.append(", operIp=").append(operIp);
-        sb.append(", operLocation=").append(operLocation);
         sb.append(", operParam=").append(operParam);
         sb.append(", status=").append(status);
         sb.append(", errorMsg=").append(errorMsg);

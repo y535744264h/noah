@@ -11,10 +11,7 @@ import com.cctv.project.noah.system.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author by yanhao
@@ -31,8 +28,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<SysMenu> selectMenusByUser(SysUser user) {
         List<SysMenu> menus = new LinkedList<SysMenu>();
-        menus=sysMenuMapper.selectMenuByUserId(user.getUserId());
-        return getChildPerms(menus,0);
+        menus = sysMenuMapper.selectMenuByUserId(user.getUserId());
+        return getChildPerms(menus, 0);
     }
 
     @Override
@@ -43,10 +40,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId) {
         List<SysMenu> menuList = null;
-        if (SysUser.isAdmin(userId)){
+        if (SysUser.isAdmin(userId)) {
             menuList = sysMenuMapper.selectMenuList(menu);
-        }
-        else{
+        } else {
             menu.getParams().put("userId", userId);
             menuList = sysMenuMapper.selectMenuListByUserId(menu);
         }
@@ -60,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Ztree> menuTreeData(Long userId) {
-        List<SysMenu> menuList = selectMenuList(null,userId);
+        List<SysMenu> menuList = selectMenuList(null, userId);
         List<Ztree> ztrees = initZtree(menuList);
         return ztrees;
     }
@@ -104,7 +100,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Ztree> roleMenuTreeData(SysRole role, Long userId) {
         Long roleId = role.getRoleId();
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        List<SysMenu> menuList = selectMenuList(null,userId);
+        List<SysMenu> menuList = selectMenuList(null, userId);
         if (StringUtils.isNotNull(roleId)) {
             List<String> roleMenuList = sysMenuMapper.selectMenuTree(roleId);
             ztrees = initZtree(menuList, roleMenuList, true);
@@ -114,9 +110,21 @@ public class MenuServiceImpl implements MenuService {
         return ztrees;
     }
 
+    @Override
+    public Set<String> selectPermsByUserId(Long userId) {
+        List<String> perms = sysMenuMapper.selectPermsByUserId(userId);
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms) {
+            if (StringUtils.isNotEmpty(perm)) {
+                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+            }
+        }
+        return permsSet;
+    }
+
     public List<SysMenu> getChildPerms(List<SysMenu> list, int parentId) {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
-        for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext();) {
+        for (Iterator<SysMenu> iterator = list.iterator(); iterator.hasNext(); ) {
             SysMenu t = (SysMenu) iterator.next();
             // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
             if (t.getParentId() == parentId) {
@@ -167,8 +175,7 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 判断是否有子节点
      */
-    private boolean hasChild(List<SysMenu> list, SysMenu t)
-    {
+    private boolean hasChild(List<SysMenu> list, SysMenu t) {
         return getChildList(list, t).size() > 0 ? true : false;
     }
 
@@ -185,15 +192,14 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 对象转菜单树
      *
-     * @param menuList 菜单列表
+     * @param menuList     菜单列表
      * @param roleMenuList 角色已存在菜单列表
-     * @param permsFlag 是否需要显示权限标识
+     * @param permsFlag    是否需要显示权限标识
      * @return 树结构列表
      */
     public List<Ztree> initZtree(List<SysMenu> menuList, List<String> roleMenuList, boolean permsFlag) {
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        //boolean isCheck = StringUtils.isNotNull(roleMenuList);
-        boolean isCheck = false;
+        boolean isCheck = StringUtils.isNotNull(roleMenuList);
         for (SysMenu menu : menuList) {
             Ztree ztree = new Ztree();
             ztree.setId(menu.getMenuId());
@@ -208,12 +214,10 @@ public class MenuServiceImpl implements MenuService {
         return ztrees;
     }
 
-    public String transMenuName(SysMenu menu, boolean permsFlag)
-    {
+    public String transMenuName(SysMenu menu, boolean permsFlag) {
         StringBuffer sb = new StringBuffer();
         sb.append(menu.getMenuName());
-        if (permsFlag)
-        {
+        if (permsFlag) {
             sb.append("<font color=\"#888\">&nbsp;&nbsp;&nbsp;" + menu.getPerms() + "</font>");
         }
         return sb.toString();

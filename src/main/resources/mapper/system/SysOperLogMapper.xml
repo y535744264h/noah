@@ -9,10 +9,7 @@
     <result column="request_method" jdbcType="VARCHAR" property="requestMethod" />
     <result column="operator_type" jdbcType="INTEGER" property="operatorType" />
     <result column="oper_name" jdbcType="VARCHAR" property="operName" />
-    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
     <result column="oper_url" jdbcType="VARCHAR" property="operUrl" />
-    <result column="oper_ip" jdbcType="VARCHAR" property="operIp" />
-    <result column="oper_location" jdbcType="VARCHAR" property="operLocation" />
     <result column="oper_param" jdbcType="VARCHAR" property="operParam" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
@@ -20,7 +17,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     oper_id, title, business_type, `method`, request_method, operator_type, oper_name, 
-    dept_name, oper_url, oper_ip, oper_location, oper_param, `status`, error_msg, oper_time
+    oper_url, oper_param, `status`, error_msg, oper_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,8 +32,8 @@
   <insert id="insert" parameterType="com.cctv.project.noah.system.entity.SysOperLog">
     insert into sys_oper_log (oper_id, title, business_type, 
       `method`, request_method, operator_type, 
-      oper_name, dept_name, oper_url, 
-      oper_ip, oper_location, oper_param, 
+      oper_name, oper_url,
+        oper_param,
       `status`, error_msg, oper_time
       )
     values (#{operId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{businessType,jdbcType=INTEGER}, 
@@ -70,17 +67,9 @@
       <if test="operName != null">
         oper_name,
       </if>
-      <if test="deptName != null">
-        dept_name,
-      </if>
+
       <if test="operUrl != null">
         oper_url,
-      </if>
-      <if test="operIp != null">
-        oper_ip,
-      </if>
-      <if test="operLocation != null">
-        oper_location,
       </if>
       <if test="operParam != null">
         oper_param,
@@ -117,9 +106,7 @@
       <if test="operName != null">
         #{operName,jdbcType=VARCHAR},
       </if>
-      <if test="deptName != null">
-        #{deptName,jdbcType=VARCHAR},
-      </if>
+
       <if test="operUrl != null">
         #{operUrl,jdbcType=VARCHAR},
       </if>
@@ -164,18 +151,11 @@
       <if test="operName != null">
         oper_name = #{operName,jdbcType=VARCHAR},
       </if>
-      <if test="deptName != null">
-        dept_name = #{deptName,jdbcType=VARCHAR},
-      </if>
+
       <if test="operUrl != null">
         oper_url = #{operUrl,jdbcType=VARCHAR},
       </if>
-      <if test="operIp != null">
-        oper_ip = #{operIp,jdbcType=VARCHAR},
-      </if>
-      <if test="operLocation != null">
-        oper_location = #{operLocation,jdbcType=VARCHAR},
-      </if>
+
       <if test="operParam != null">
         oper_param = #{operParam,jdbcType=VARCHAR},
       </if>
@@ -199,10 +179,7 @@
       request_method = #{requestMethod,jdbcType=VARCHAR},
       operator_type = #{operatorType,jdbcType=INTEGER},
       oper_name = #{operName,jdbcType=VARCHAR},
-      dept_name = #{deptName,jdbcType=VARCHAR},
       oper_url = #{operUrl,jdbcType=VARCHAR},
-      oper_ip = #{operIp,jdbcType=VARCHAR},
-      oper_location = #{operLocation,jdbcType=VARCHAR},
       oper_param = #{operParam,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
@@ -211,7 +188,7 @@
   </update>
 
   <select id="selectOperLogList" parameterType="com.cctv.project.noah.system.entity.SysOperLog" resultMap="BaseResultMap">
-    select oper_id, title, business_type, method, request_method, operator_type, oper_name, dept_name, oper_url, oper_ip, oper_location, oper_param, status, error_msg, oper_time
+    select oper_id, title, business_type, method, request_method, operator_type, oper_name, oper_url, oper_param, status, error_msg, oper_time
     from sys_oper_log
     <where>
       <if test="title != null and title != ''">

@@ -70,6 +70,6 @@
 <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
 <!--        </table>-->
 
-        <table tableName="sys_job_log" domainObjectName="JobLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+        <table tableName="demo_student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
     </context>
 </generatorConfiguration>

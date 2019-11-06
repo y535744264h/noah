@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SysUser selectUserByLoginName(String userName) {
-        return null;
+        return sysUserMapper.selectUserByLoginName(userName);
     }
 
     @Override

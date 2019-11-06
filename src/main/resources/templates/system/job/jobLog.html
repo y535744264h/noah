@@ -60,7 +60,7 @@
 	</div>
 	<th:block th:include="include :: footer" />
 	<script th:inline="javascript">
-		var detailFlag = "";
+		var detailFlag = [[${@permission.hasPermi('monitor:job:detail')}]];
 		var statusDatas = [[${@dict.getType('sys_common_status')}]];
 		var groupDatas = [[${@dict.getType('sys_job_group')}]];
 		var prefix = ctx + "monitor/jobLog";

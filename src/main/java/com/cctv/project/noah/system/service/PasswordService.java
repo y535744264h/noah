@@ -1,5 +1,7 @@
 package com.cctv.project.noah.system.service;
 
+import com.cctv.project.noah.system.entity.SysUser;
+
 /**
  * @author by yanhao
  * @Classname PasswordService
@@ -8,4 +10,6 @@ package com.cctv.project.noah.system.service;
  */
 public interface PasswordService {
     String encryptPassword(String loginName, String password, String salt);
+
+    void validate(SysUser user, String password);
 }

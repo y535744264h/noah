@@ -6,6 +6,7 @@ import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.entity.SysUser;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author by yanhao
@@ -38,4 +39,6 @@ public interface MenuService {
     int deleteMenuById(Long menuId);
 
     List<Ztree> roleMenuTreeData(SysRole role, Long userId);
+
+    Set<String> selectPermsByUserId(Long userId);
 }

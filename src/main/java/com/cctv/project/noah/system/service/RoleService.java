@@ -4,6 +4,7 @@ import com.cctv.project.noah.system.entity.SysRole;
 import com.cctv.project.noah.system.entity.SysUserRole;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author by yanhao
@@ -46,4 +47,6 @@ public interface RoleService {
     int deleteAuthUsers(Long roleId, String userIds);
 
     int insertAuthUsers(Long roleId, String userIds);
+
+    Set<String> selectRoleKeys(Long userId);
 }

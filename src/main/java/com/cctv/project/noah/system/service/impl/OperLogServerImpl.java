@@ -47,7 +47,7 @@ public class OperLogServerImpl implements OperLogService {
     @Override
     @DataSource(DataSourceType.MASTER)
     public Page<Map<String, Object>> selectOperLogListMap(SysOperLog operLog, PageDomain pageDomain) {
-        String sql="select oper_id operId, title, business_type businessType, method, request_method requestMethod, operator_type operatorType, oper_name operName, dept_name deptName, oper_url operUrl, oper_ip operIp, oper_location operLocation, oper_param operParam, status, error_msg errorMsg, oper_time operTime " +
+        String sql="select oper_id operId, title, business_type businessType, method, request_method requestMethod, operator_type operatorType, oper_name operName, oper_url operUrl, oper_param operParam, status, error_msg errorMsg, oper_time operTime " +
                 "    from sys_oper_log";
         Map<String,Object> paramMap = new HashMap<String, Object>();
         return JdbcPaginationHelper.queryPage(jdbcTemplate,sql,paramMap,pageDomain);

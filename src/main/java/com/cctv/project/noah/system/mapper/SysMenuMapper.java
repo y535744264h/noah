@@ -35,4 +35,6 @@ public interface SysMenuMapper {
     int selectCountRoleMenuByMenuId(Long menuId);
 
     List<String> selectMenuTree(Long roleId);
+
+    List<String> selectPermsByUserId(Long userId);
 }

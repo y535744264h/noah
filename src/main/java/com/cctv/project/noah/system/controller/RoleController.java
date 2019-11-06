@@ -12,6 +12,7 @@ import com.cctv.project.noah.system.entity.SysUserRole;
 import com.cctv.project.noah.system.service.RoleService;
 import com.cctv.project.noah.system.service.UserService;
 import com.cctv.project.noah.system.util.poi.ExcelUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,21 +36,24 @@ public class RoleController extends BaseController {
     private UserService userService;
 
     @GetMapping()
+    @RequiresPermissions("system:role:view")
     public String role() {
         return prefix + "/role";
     }
 
-    @PostMapping("/list")
     @ResponseBody
+    @PostMapping("/list")
+    @RequiresPermissions("system:role:list")
     public TableDataInfo list(SysRole role) {
         startPage();
         List<SysRole> list = roleService.selectRoleList(role);
         return getDataTable(list);
     }
 
-    @Log(title = "角色管理", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
     @ResponseBody
+    @PostMapping("/export")
+    @RequiresPermissions("system:role:export")
+    @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     public AjaxResult export(SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
         ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
@@ -60,6 +64,7 @@ public class RoleController extends BaseController {
      * 新增角色
      */
     @GetMapping("/add")
+    @RequiresPermissions("system:role:add")
     public String add() {
         return prefix + "/add";
     }
@@ -67,9 +72,10 @@ public class RoleController extends BaseController {
     /**
      * 新增保存角色
      */
-    @Log(title = "角色管理", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
     @ResponseBody
+    @PostMapping("/add")
+    @RequiresPermissions("system:role:add")
+    @Log(title = "角色管理", businessType = BusinessType.INSERT)
     public AjaxResult addSave(@Validated SysRole role) {
         if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
             return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
@@ -86,6 +92,7 @@ public class RoleController extends BaseController {
      * 修改角色
      */
     @GetMapping("/edit/{roleId}")
+    @RequiresPermissions("system:role:edit")
     public String edit(@PathVariable("roleId") Long roleId, ModelMap mmap) {
         mmap.put("role", roleService.selectRoleById(roleId));
         return prefix + "/edit";
@@ -94,9 +101,10 @@ public class RoleController extends BaseController {
     /**
      * 修改保存角色
      */
-    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
     @ResponseBody
+    @PostMapping("/edit")
+    @RequiresPermissions("system:role:edit")
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     public AjaxResult editSave(@Validated SysRole role) {
         if (UserConstants.ROLE_NAME_NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
@@ -132,9 +140,10 @@ public class RoleController extends BaseController {
 //        return error();
 //    }
 //
-    @Log(title = "角色管理", businessType = BusinessType.DELETE)
-    @PostMapping("/remove")
     @ResponseBody
+    @PostMapping("/remove")
+    @RequiresPermissions("system:role:remove")
+    @Log(title = "角色管理", businessType = BusinessType.DELETE)
     public AjaxResult remove(String ids) {
         try {
             return toAjax(roleService.deleteRoleByIds(ids));
