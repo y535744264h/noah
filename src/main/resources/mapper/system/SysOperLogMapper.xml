@@ -39,7 +39,7 @@
     values (#{operId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{businessType,jdbcType=INTEGER}, 
       #{method,jdbcType=VARCHAR}, #{requestMethod,jdbcType=VARCHAR}, #{operatorType,jdbcType=INTEGER}, 
       #{operName,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{operUrl,jdbcType=VARCHAR}, 
-      #{operIp,jdbcType=VARCHAR}, #{operLocation,jdbcType=VARCHAR}, #{operParam,jdbcType=VARCHAR}, 
+    #{operLocation,jdbcType=VARCHAR}, #{operParam,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER}, #{errorMsg,jdbcType=VARCHAR}, #{operTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -109,9 +109,6 @@
 
       <if test="operUrl != null">
         #{operUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="operIp != null">
-        #{operIp,jdbcType=VARCHAR},
       </if>
       <if test="operLocation != null">
         #{operLocation,jdbcType=VARCHAR},
