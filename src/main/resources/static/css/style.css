@@ -1519,10 +1519,7 @@ button:focus {
 .btn:focus {
   box-shadow: none;
 }
-/*.btn-xs {*/
-/*  font-size: 0.7rem;*/
-/*  padding: 0.2rem 0.4rem;*/
-/*}*/
+
 .btn-group-sm > .btn,
 .btn-sm {
   font-size: .8rem;
