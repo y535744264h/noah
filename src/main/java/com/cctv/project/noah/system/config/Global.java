@@ -62,42 +62,42 @@ public class Global {
      * 获取项目名称
      */
     public static String getName() {
-        return StringUtils.nvl(getConfig("ruoyi.name"), "RuoYi");
+        return StringUtils.nvl(getConfig("noah.name"), "noah");
     }
 
     /**
      * 获取项目版本
      */
     public static String getVersion() {
-        return StringUtils.nvl(getConfig("ruoyi.version"), "4.0.0");
+        return StringUtils.nvl(getConfig("noah.version"), "4.0.0");
     }
 
     /**
      * 获取版权年份
      */
     public static String getCopyrightYear() {
-        return StringUtils.nvl(getConfig("ruoyi.copyrightYear"), "2019");
+        return StringUtils.nvl(getConfig("noah.copyrightYear"), "2019");
     }
 
     /**
      * 实例演示开关
      */
     public static String isDemoEnabled() {
-        return StringUtils.nvl(getConfig("ruoyi.demoEnabled"), "true");
+        return StringUtils.nvl(getConfig("noah.demoEnabled"), "true");
     }
 
     /**
      * 获取ip地址开关
      */
     public static Boolean isAddressEnabled() {
-        return Boolean.valueOf(getConfig("ruoyi.addressEnabled"));
+        return Boolean.valueOf(getConfig("noah.addressEnabled"));
     }
 
     /**
      * 获取文件上传路径
      */
     public static String getProfile() {
-        return getConfig("ruoyi.profile");
+        return getConfig("noah.profile");
     }
 
     /**
