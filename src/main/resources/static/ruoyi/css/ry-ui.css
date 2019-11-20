@@ -1001,3 +1001,11 @@ label {
 	border-radius: 6px;
 	background-color: #999;
 }
+.typeahead li{
+	width: 100%;
+	float: none;
+}
+.inner li{
+	width: 100%;
+	float: none;
+}

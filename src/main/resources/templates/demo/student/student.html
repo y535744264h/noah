@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('学生管理')" />
+    <th:block th:include="include :: bootstrap-select-css" />
 </head>
 <body class="gray-bg">
     <!-- 主体内容开始 -->
@@ -15,13 +16,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                学生姓名：<input type="text" name="studentName"/>
+                                <div>
+                                    学生姓名：<input type="text" name="studentName" id="studentName" autocomplete="off"/>
+                                </div>
+
                             </li>
                             <li>
-                                学生班级：<select name="classId" th:with="type=${@studentService.getAllClass()}">
-                                <option value="">所有</option>
-                                <option th:each="classes : ${type}" th:text="${classes.className}" th:value="${classes.classId}"></option>
-                            </select>
+                                学生班级：<select class="selectpicker" name="classId" th:with="type=${@studentService.getAllClass()}" data-live-search="true">
+                                    <option value="">所有</option>
+                                    <option th:each="classes : ${type}" th:text="${classes.className}" th:value="${classes.classId}"></option>
+                                </select>
                             </li>
                             <li>
                                 学生状态：<select name="studentState" th:with="state=${@dict.getType('student_state')}">
@@ -68,6 +72,8 @@
     </div>
     <!-- 主体内容结束 -->
 <th:block th:include="include :: footer" />
+<th:block th:include="include :: typeahead-js" />
+<th:block th:include="include :: bootstrap-select-js" />
 <script th:inline="javascript">
     var datas = [[${@dict.getType('student_state')}]];
 
@@ -78,6 +84,10 @@
     $(function(){
 
         queryUserList();
+
+        $('#studentName').typeahead({
+            source: ["item 1","item 2","item 3","item 4","item 5","item 6","item 7","item 8","item 9","itdwa7","idwatem 7","it1em 7","itemd 7","itemaa 7","itexm 7","iqtem 7","item 7","itemw 7","itexm 7","fitem 7"],
+        });
     });
 
     function queryUserList() {
