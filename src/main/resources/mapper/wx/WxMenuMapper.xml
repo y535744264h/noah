@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cctv.project.noah.wx.mapper.WxMenuMapper">
+  <resultMap id="BaseResultMap" type="com.cctv.project.noah.wx.entity.WxMenu">
+    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <id column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="menu_home" jdbcType="CHAR" property="menuHome" />
+    <result column="wx_type" jdbcType="CHAR" property="wxType" />
+    <result column="media_id" jdbcType="VARCHAR" property="mediaId" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="menu_type" jdbcType="CHAR" property="menuType" />
+    <result column="visible" jdbcType="CHAR" property="visible" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="perms" jdbcType="VARCHAR" property="perms" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="pagepath" jdbcType="VARCHAR" property="pagepath" />
+
+    <result column="parent_name" property="parentName"></result>
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, menu_name, parent_id, order_num, menu_home, wx_type, media_id, `key`, menu_type, 
+    visible, url, perms, create_by, create_time, update_by, update_time, remark, appid, 
+    pagepath
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.cctv.project.noah.wx.entity.WxMenuKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_menu
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cctv.project.noah.wx.entity.WxMenuKey">
+    delete from wx_menu
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="com.cctv.project.noah.wx.entity.WxMenu" useGeneratedKeys="true">
+    insert into wx_menu (menu_name, parent_id, order_num, 
+      menu_home, wx_type, media_id, 
+      `key`, menu_type, visible, url, 
+      perms, create_by, create_time, 
+      update_by, update_time, remark, 
+      appid, pagepath)
+    values (#{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER}, 
+      #{menuHome,jdbcType=CHAR}, #{wxType,jdbcType=CHAR}, #{mediaId,jdbcType=VARCHAR}, 
+      #{key,jdbcType=VARCHAR}, #{menuType,jdbcType=CHAR}, #{visible,jdbcType=CHAR}, #{url,jdbcType=VARCHAR}, 
+      #{perms,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{appid,jdbcType=VARCHAR}, #{pagepath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="com.cctv.project.noah.wx.entity.WxMenu" useGeneratedKeys="true">
+    insert into wx_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="menuHome != null">
+        menu_home,
+      </if>
+      <if test="wxType != null">
+        wx_type,
+      </if>
+      <if test="mediaId != null">
+        media_id,
+      </if>
+      <if test="key != null">
+        `key`,
+      </if>
+      <if test="menuType != null">
+        menu_type,
+      </if>
+      <if test="visible != null">
+        visible,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="perms != null">
+        perms,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="appid != null">
+        appid,
+      </if>
+      <if test="pagepath != null">
+        pagepath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="menuHome != null">
+        #{menuHome,jdbcType=CHAR},
+      </if>
+      <if test="wxType != null">
+        #{wxType,jdbcType=CHAR},
+      </if>
+      <if test="mediaId != null">
+        #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        #{visible,jdbcType=CHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="perms != null">
+        #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="pagepath != null">
+        #{pagepath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cctv.project.noah.wx.entity.WxMenu">
+    update wx_menu
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="menuHome != null">
+        menu_home = #{menuHome,jdbcType=CHAR},
+      </if>
+      <if test="wxType != null">
+        wx_type = #{wxType,jdbcType=CHAR},
+      </if>
+      <if test="mediaId != null">
+        media_id = #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null">
+        `key` = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        menu_type = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="visible != null">
+        visible = #{visible,jdbcType=CHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="perms != null">
+        perms = #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="pagepath != null">
+        pagepath = #{pagepath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cctv.project.noah.wx.entity.WxMenu">
+    update wx_menu
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      menu_home = #{menuHome,jdbcType=CHAR},
+      wx_type = #{wxType,jdbcType=CHAR},
+      media_id = #{mediaId,jdbcType=VARCHAR},
+      `key` = #{key,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=CHAR},
+      visible = #{visible,jdbcType=CHAR},
+      url = #{url,jdbcType=VARCHAR},
+      perms = #{perms,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      appid = #{appid,jdbcType=VARCHAR},
+      pagepath = #{pagepath,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectMenuList" parameterType="com.cctv.project.noah.wx.entity.WxMenu" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from wx_menu
+      <where>
+          <if test="menuName != null and menuName != ''">
+              AND menu_name like concat('%', #{menuName}, '%')
+          </if>
+          <if test="visible != null and visible != ''">
+              AND visible = #{visible}
+          </if>
+      </where>
+      order by parent_id, order_num
+  </select>
+
+  <select id="selectMenuById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT
+    t.menu_id,
+    t.menu_name,
+    t.parent_id,
+    t.order_num,
+    t.menu_home,
+    t.wx_type,
+    t.media_id,
+    t.`key`,
+    t.menu_type,
+    t.visible,
+    t.url,
+    t.perms,
+    t.create_by,
+    t.create_time,
+    t.update_by,
+    t.update_time,
+    t.remark,
+    t.appid,
+    t.pagepath,
+  (SELECT menu_name FROM wx_menu WHERE menu_id = t.parent_id) parent_name
+      FROM wx_menu t
+      where t.menu_id = #{menuId}
+  </select>
+
+  <select id="checkMenuNameUnique" parameterType="com.cctv.project.noah.wx.entity.WxMenu" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_menu
+    where menu_name=#{menuName} and parent_id = #{parentId}
+  </select>
+
+  <select id="selectCountMenuByParentId" parameterType="java.lang.Long" resultType="int">
+        select count(1) from wx_menu where parent_id=#{menuId}
+  </select>
+
+  <select id="selectCountLableMenuByMenuId" parameterType="java.lang.Long" resultType="int">
+        select count(1) from wx_menu_label where menu_id=#{menuId}
+  </select>
+
+  <delete id="deleteMenuById" parameterType="java.lang.Long">
+    delete from wx_menu
+    where menu_id = #{menuId,jdbcType=BIGINT}
+  </delete>
+
+
+  <select id="selectMenuTree" parameterType="Long" resultType="String">
+		select concat(m.menu_id, ifnull(m.perms,'')) as perms
+		from wx_menu m
+		left join wx.wx_menu_label rm on m.menu_id = rm.menu_id
+		where rm.label_id = #{labelId}
+		order by m.parent_id, m.order_num
+	</select>
+</mapper>

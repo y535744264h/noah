@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cctv.project.noah.wx.mapper.WxMenuLabelMapper">
+  <resultMap id="BaseResultMap" type="com.cctv.project.noah.wx.entity.WxMenuLabelKey">
+    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <id column="label_id" jdbcType="BIGINT" property="labelId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.cctv.project.noah.wx.entity.WxMenuLabelKey">
+    delete from wx_menu_label
+    where menu_id = #{menuId,jdbcType=BIGINT}
+      and label_id = #{labelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="com.cctv.project.noah.wx.entity.WxMenuLabelKey" useGeneratedKeys="true">
+    insert into wx_menu_label (label_id)
+    values (#{labelId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="com.cctv.project.noah.wx.entity.WxMenuLabelKey" useGeneratedKeys="true">
+    insert into wx_menu_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">
+        label_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">
+        #{labelId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchLabelMenu">
+    insert into wx_menu_label(menu_id, label_id) values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (#{item.menuId},#{item.labelId})
+    </foreach>
+  </insert>
+
+</mapper>
