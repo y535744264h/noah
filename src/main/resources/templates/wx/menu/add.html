@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增菜单')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-menu-add">
+			<input id="treeId" name="parentId" type="hidden" th:value="${menu.menuId}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">上级菜单：</label>
+				<div class="col-sm-8">
+				    <div class="input-group">
+					    <input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" th:value="${menu.menuName}">
+				        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+				    </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单类型：</label>
+				<div class="col-sm-8">
+					<label class="radio-box"> <input type="radio" name="menuType" value="M" /> 目录 </label> 
+					<label class="radio-box"> <input type="radio" name="menuType" value="C" /> 菜单 </label> 
+					<label class="radio-box"> <input type="radio" name="menuType" value="F" /> 按钮 </label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">微信菜单类型：</label>
+				<div class="col-sm-8">
+					<select id="wxType" name="wxType" class="form-control" th:with="type=${@dict.getType('wx_menu_button_type')}">
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="menuName" id="menuName" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">请求地址：</label>
+				<div class="col-sm-8">
+					<input id="url" name="url" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单Key：</label>
+				<div class="col-sm-8">
+					<input id="key" name="key" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">mediaId：</label>
+				<div class="col-sm-8">
+					<input id="mediaId" name="mediaId" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">小程序AppId：</label>
+				<div class="col-sm-8">
+					<input id="appid" name="appid" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">小程序URL：</label>
+				<div class="col-sm-8">
+					<input id="pagepath" name="pagepath" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">权限标识：</label>
+				<div class="col-sm-8">
+					<input id="perms" name="perms" class="form-control" type="text">
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 控制器中定义的权限标识，如：@RequiresPermissions("")</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">显示排序：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="orderNum" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单状态：</label>
+				<div class="col-sm-8">
+				    <div class="radio-box">
+						<input type="radio" id="show" name="visible" value="0" checked="checked">
+						<label for="show">显示</label>
+					</div>
+					<div class="radio-box">
+						<input type="radio" id="hide" name="visible" value="1">
+						<label for="hide">隐藏</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	 <script>
+        var prefix = ctx + "wx/wxMenu";
+        
+        $("#form-menu-add").validate({
+        	onkeyup: false,
+        	rules:{
+        		menuType:{
+        			required:true,
+        		},
+        		menuName:{
+        			remote: {
+                        url: prefix + "/checkMenuNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	"parentId": function() {
+		                		return $("input[name='parentId']").val();
+		                    },
+                        	"menuName" : function() {
+                                return $.common.trim($("#menuName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		orderNum:{
+        			digits:true
+        		},
+        	},
+        	messages: {
+                "menuName": {
+                    remote: "菜单已经存在"
+                }
+            },
+            focusCleanup: true
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-menu-add').serialize());
+	        }
+	    }
+
+        $(function() {
+
+			$('#wxType').change();
+
+        	$('input').on('ifChecked', function(event){  
+        		var menuType = $(event.target).val();
+                $("#wxType").parents(".form-group").hide();
+                $("#url").parents(".form-group").hide();
+                $("#key").parents(".form-group").hide();
+                $("#mediaId").parents(".form-group").hide();
+                $("#appid").parents(".form-group").hide();
+                $("#pagepath").parents(".form-group").hide();
+        		if (menuType == "M") {
+                    $("#url").parents(".form-group").hide();
+                    $("#perms").parents(".form-group").hide();
+                    $("#target").parents(".form-group").hide();
+                    $("input[name='visible']").parents(".form-group").show();
+                } else if (menuType == "C") {
+                    $("#wxType").parents(".form-group").show();
+                	$("#url").parents(".form-group").show();
+                    $("#perms").parents(".form-group").show();
+                    $("#target").parents(".form-group").show();
+                    $("input[name='visible']").parents(".form-group").show();
+                    $('#wxType').change();
+                } else if (menuType == "F") {
+                	$("#url").parents(".form-group").hide();
+                    $("#perms").parents(".form-group").show();
+                    $("#target").parents(".form-group").hide();
+                    $("input[name='visible']").parents(".form-group").hide();
+                }
+
+        	});
+
+        	$('#wxType').change(function(event){
+                var wxType = $(event.target).val();
+                if(wxType=="view"){
+                    $("#url").parents(".form-group").show();
+                    $("#key").parents(".form-group").hide();
+                    $("#mediaId").parents(".form-group").hide();
+                    $("#appid").parents(".form-group").hide();
+                    $("#pagepath").parents(".form-group").hide();
+                }else if(wxType=="click"||wxType=="scancode_push"||wxType=="scancode_waitmsg"||wxType=="pic_sysphoto"
+                    ||wxType=="pic_photo_or_album"||wxType=="pic_weixin"||wxType=="location_select"
+                ){
+                    $("#url").parents(".form-group").hide();
+                    $("#key").parents(".form-group").show();
+                    $("#mediaId").parents(".form-group").hide();
+                    $("#appid").parents(".form-group").hide();
+                    $("#pagepath").parents(".form-group").hide();
+                }else if(wxType=="media_id"||wxType=="view_limited"){
+                    $("#url").parents(".form-group").hide();
+                    $("#key").parents(".form-group").hide();
+                    $("#mediaId").parents(".form-group").show();
+                    $("#appid").parents(".form-group").hide();
+                    $("#pagepath").parents(".form-group").hide();
+                }else if(wxType=="miniprogram"||wxType=="miniprogram"){
+                    $("#url").parents(".form-group").hide();
+                    $("#key").parents(".form-group").hide();
+                    $("#mediaId").parents(".form-group").hide();
+                    $("#appid").parents(".form-group").show();
+                    $("#pagepath").parents(".form-group").show();
+                }
+
+            })
+        });
+
+        /*菜单管理-新增-选择菜单树*/
+        function selectMenuTree() {
+        	var treeId = $("#treeId").val();
+        	var menuId = treeId > 0 ? treeId : 1;
+        	var url = prefix + "/selectMenuTree/" + menuId;
+			var options = {
+				title: '菜单选择',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+   			$("#treeId").val(body.find('#treeId').val());
+   			$("#treeName").val(body.find('#treeName').val());
+   			layer.close(index);
+		}
+    </script>
+</body>
+</html>

@@ -24,6 +24,13 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
+        <!-- 微信SDK -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
         <!-- WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
