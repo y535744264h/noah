@@ -2,10 +2,8 @@ package com.cctv.project.noah.system.enmus;
 
 /**
  * 业务操作类型
- * 
  */
-public enum BusinessType
-{
+public enum BusinessType {
     /**
      * 其它
      */
@@ -50,4 +48,13 @@ public enum BusinessType
      * 清空
      */
     CLEAN,
+    /**
+     *生成代码
+     */
+    GENCODE,
+
+    /**
+     * 微信同步用户
+     */
+    SYNCWXUSER
 }

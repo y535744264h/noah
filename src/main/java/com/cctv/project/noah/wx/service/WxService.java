@@ -3,11 +3,15 @@ package com.cctv.project.noah.wx.service;
 import com.cctv.project.noah.wx.entity.WxLabel;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.WxMpUserQuery;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import me.chanjar.weixin.mp.bean.tag.WxUserTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,6 +33,7 @@ public class WxService {
      * @throws WxErrorException
      */
     public Long insLabel(WxLabel wxLabel) throws WxErrorException {
+
         WxUserTag wxUserTag=wxMpService.getUserTagService().tagCreate(wxLabel.getLabelName());
         return wxUserTag.getId();
     }
@@ -68,6 +73,30 @@ public class WxService {
             wxLabelList.add(wxLabel);
         }
         return wxLabelList;
+    }
+
+    public List<WxMpUser> getAllWxMpUser() throws WxErrorException {
+        List<WxMpUser> allWxMpUser=new ArrayList<>();
+
+
+        WxMpUserList wxMpUserList=wxMpService.getUserService().userList("");
+        List<String> openIds=wxMpUserList.getOpenids();
+        Iterator<String> iterator=openIds.iterator();
+
+        WxMpUserQuery wxMpUserQuery=new WxMpUserQuery();
+
+        int count=0;
+        while(iterator.hasNext()){
+            wxMpUserQuery.add(iterator.next());
+            count++;
+            if(count>=90){
+                allWxMpUser.addAll(wxMpService.getUserService().userInfoList(wxMpUserQuery));
+                wxMpUserQuery=new WxMpUserQuery();
+            }
+        }
+        allWxMpUser.addAll(wxMpService.getUserService().userInfoList(wxMpUserQuery));
+
+        return allWxMpUser;
     }
 
 }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('微信用户管理列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>昵称：</p>
+                                <input type="text" name="nickname"/>
+                            </li>
+                            <li>
+                                <p>性别：</p>
+                                <select name="sex" th:with="type=${@dict.getType('wx_user_sex')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+<!--                            <li>-->
+<!--                                <p>城市：</p>-->
+<!--                                <input type="text" name="city"/>-->
+<!--                            </li>-->
+                            <li class="select-time">
+                                <p>关注时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginSubscribeTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endSubscribeTime]"/>
+                            </li>
+<!--                            <li>-->
+<!--                                <p>分组：</p>-->
+<!--                                <input type="text" name="groupid"/>-->
+<!--                            </li>-->
+                            <li>
+                                <p>标签：</p>
+                                <input type="text" name="tagidList"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="wx:user:updlabel">
+                    <i class="fa fa-edit"></i> 修改标签
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="wx:user:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+                <a class="btn btn-info" onclick="syncWxUser()" shiro:hasPermission="wx:user:getuser">
+                    <i class="fa fa-upload"></i> 同步微信数据
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+
+
+
+        var editFlag = [[${@permission.hasPermi('wx:user:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('wx:user:remove')}]];
+        var sexDatas = [[${@dict.getType('wx_user_sex')}]];
+        var subscribeScene = [[${@dict.getType('wx_user_subscribe_scene')}]];
+        var prefix = ctx + "wx/user";
+
+        function syncWxUser(){
+            $.operate.post(prefix+"/getAllUser","",function(){
+                //刷新table
+                $.table.refresh();
+            })
+        }
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "微信用户",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'userId', 
+                    title : '用户ID',
+                    visible: false
+                },
+                {
+                    field : 'openid', 
+                    title : 'openId',
+                    visible: false
+                },
+                {
+                    field : 'nickname', 
+                    title : '昵称'
+                },
+                {
+                    field : 'sex', 
+                    title : '性别',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(sexDatas, value);
+                    }
+                },
+                {
+                    field : 'country',
+                    title : '国家'
+                },
+                {
+                    field : 'city', 
+                    title : '城市'
+                },
+                {
+                    field : 'province', 
+                    title : '省份'
+                },
+                {
+                    field : 'headimgurl', 
+                    title : '头像',
+                    formatter: function(value, row, index) {
+                        return $.table.imageView(value);
+                    }
+                },
+                {
+                    field : 'subscribeTime', 
+                    title : '关注时间'
+                },
+                {
+                    field : 'groupid', 
+                    title : '分组'
+                },
+                {
+                    field : 'tagidList', 
+                    title : '标签'
+                },
+                {
+                    field : 'subscribeScene',
+                    title : '关注来源',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(subscribeScene, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
