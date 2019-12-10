@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cctv.project.noah.wx.mapper.WxUserMapper">
+    
+    <resultMap type="com.cctv.project.noah.wx.entity.WxUser" id="WxUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="subscribe"    column="subscribe"    />
+        <result property="openid"    column="openid"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="sex"    column="sex"    />
+        <result property="city"    column="city"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="language"    column="language"    />
+        <result property="headimgurl"    column="headimgurl"    />
+        <result property="subscribeTime"    column="subscribe_time"    />
+        <result property="unionid"    column="unionid"    />
+        <result property="remark"    column="remark"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="tagidList"    column="tagid_list"    />
+        <result property="subscribeScene"    column="subscribe_scene"    />
+        <result property="qrScene"    column="qr_scene"    />
+        <result property="qrSceneStr"    column="qr_scene_str"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWxUserVo">
+        select user_id, subscribe, openid, nickname, sex, city, country, province, language, headimgurl, subscribe_time, unionid, remark, groupid, tagid_list, subscribe_scene, qr_scene, qr_scene_str, login_date, create_by, create_time, update_by, update_time from wx_user
+    </sql>
+
+    <select id="selectWxUserList" parameterType="com.cctv.project.noah.wx.entity.WxUser" resultMap="WxUserResult">
+        <include refid="selectWxUserVo"/>
+        <where>  
+            <if test="subscribe != null "> and subscribe = #{subscribe}</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="sex != null "> and sex = #{sex}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="language != null  and language != ''"> and language = #{language}</if>
+            <if test="headimgurl != null  and headimgurl != ''"> and headimgurl = #{headimgurl}</if>
+            <if test="subscribeTime != null "> and subscribe_time = #{subscribeTime}</if>
+            <if test="unionid != null  and unionid != ''"> and unionid = #{unionid}</if>
+            <if test="groupid != null  and groupid != ''"> and groupid = #{groupid}</if>
+            <if test="tagidList != null  and tagidList != ''"> and tagid_list = #{tagidList}</if>
+            <if test="subscribeScene != null  and subscribeScene != ''"> and subscribe_scene = #{subscribeScene}</if>
+            <if test="qrScene != null  and qrScene != ''"> and qr_scene = #{qrScene}</if>
+            <if test="qrSceneStr != null  and qrSceneStr != ''"> and qr_scene_str = #{qrSceneStr}</if>
+            <if test="loginDate != null "> and login_date = #{loginDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectWxUserById" parameterType="Long" resultMap="WxUserResult">
+        <include refid="selectWxUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertWxUser" parameterType="com.cctv.project.noah.wx.entity.WxUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into wx_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subscribe != null ">subscribe,</if>
+            <if test="openid != null  and openid != ''">openid,</if>
+            <if test="nickname != null  and nickname != ''">nickname,</if>
+            <if test="sex != null ">sex,</if>
+            <if test="city != null  and city != ''">city,</if>
+            <if test="country != null  and country != ''">country,</if>
+            <if test="province != null  and province != ''">province,</if>
+            <if test="language != null  and language != ''">language,</if>
+            <if test="headimgurl != null  and headimgurl != ''">headimgurl,</if>
+            <if test="subscribeTime != null ">subscribe_time,</if>
+            <if test="unionid != null  and unionid != ''">unionid,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="groupid != null  and groupid != ''">groupid,</if>
+            <if test="tagidList != null  and tagidList != ''">tagid_list,</if>
+            <if test="subscribeScene != null  and subscribeScene != ''">subscribe_scene,</if>
+            <if test="qrScene != null  and qrScene != ''">qr_scene,</if>
+            <if test="qrSceneStr != null  and qrSceneStr != ''">qr_scene_str,</if>
+            <if test="loginDate != null ">login_date,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subscribe != null ">#{subscribe},</if>
+            <if test="openid != null  and openid != ''">#{openid},</if>
+            <if test="nickname != null  and nickname != ''">#{nickname},</if>
+            <if test="sex != null ">#{sex},</if>
+            <if test="city != null  and city != ''">#{city},</if>
+            <if test="country != null  and country != ''">#{country},</if>
+            <if test="province != null  and province != ''">#{province},</if>
+            <if test="language != null  and language != ''">#{language},</if>
+            <if test="headimgurl != null  and headimgurl != ''">#{headimgurl},</if>
+            <if test="subscribeTime != null ">#{subscribeTime},</if>
+            <if test="unionid != null  and unionid != ''">#{unionid},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="groupid != null  and groupid != ''">#{groupid},</if>
+            <if test="tagidList != null  and tagidList != ''">#{tagidList},</if>
+            <if test="subscribeScene != null  and subscribeScene != ''">#{subscribeScene},</if>
+            <if test="qrScene != null  and qrScene != ''">#{qrScene},</if>
+            <if test="qrSceneStr != null  and qrSceneStr != ''">#{qrSceneStr},</if>
+            <if test="loginDate != null ">#{loginDate},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxUser" parameterType="com.cctv.project.noah.wx.entity.WxUser">
+        update wx_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subscribe != null ">subscribe = #{subscribe},</if>
+            <if test="openid != null  and openid != ''">openid = #{openid},</if>
+            <if test="nickname != null  and nickname != ''">nickname = #{nickname},</if>
+            <if test="sex != null ">sex = #{sex},</if>
+            <if test="city != null  and city != ''">city = #{city},</if>
+            <if test="country != null  and country != ''">country = #{country},</if>
+            <if test="province != null  and province != ''">province = #{province},</if>
+            <if test="language != null  and language != ''">language = #{language},</if>
+            <if test="headimgurl != null  and headimgurl != ''">headimgurl = #{headimgurl},</if>
+            <if test="subscribeTime != null ">subscribe_time = #{subscribeTime},</if>
+            <if test="unionid != null  and unionid != ''">unionid = #{unionid},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="groupid != null  and groupid != ''">groupid = #{groupid},</if>
+            <if test="tagidList != null  and tagidList != ''">tagid_list = #{tagidList},</if>
+            <if test="subscribeScene != null  and subscribeScene != ''">subscribe_scene = #{subscribeScene},</if>
+            <if test="qrScene != null  and qrScene != ''">qr_scene = #{qrScene},</if>
+            <if test="qrSceneStr != null  and qrSceneStr != ''">qr_scene_str = #{qrSceneStr},</if>
+            <if test="loginDate != null ">login_date = #{loginDate},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteWxUserById" parameterType="Long">
+        delete from wx_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteWxUserByIds" parameterType="String">
+        delete from wx_user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="clearWxUser">
+        truncate table wx_user
+    </delete>
+
+    <insert id="insertWxUSers">
+        insert into wx_user (openid, subscribe, nickname,
+      sex, city, country,
+      province, `language`, headimgurl,
+      subscribe_time, unionid, remark,
+      groupid, tagid_list, subscribe_scene,
+      qr_scene, qr_scene_str, login_date,
+      create_by, create_time, update_by,
+      update_time)
+        values
+        <foreach item="user" collection="list"  separator=",">
+            (#{user.openid,jdbcType=VARCHAR},
+            #{user.subscribe,jdbcType=INTEGER},
+            #{user.nickname,jdbcType=VARCHAR},
+            #{user.sex,jdbcType=INTEGER},
+            #{user.city,jdbcType=VARCHAR},
+            #{user.country,jdbcType=VARCHAR},
+            #{user.province,jdbcType=VARCHAR},
+            #{user.language,jdbcType=VARCHAR},
+            #{user.headimgurl,jdbcType=VARCHAR},
+            #{user.subscribeTime,jdbcType=TIMESTAMP},
+            #{user.unionid,jdbcType=VARCHAR},
+            #{user.remark,jdbcType=VARCHAR},
+            #{user.groupid,jdbcType=VARCHAR},
+            #{user.tagidList,jdbcType=VARCHAR},
+            #{user.subscribeScene,jdbcType=VARCHAR},
+            #{user.qrScene,jdbcType=VARCHAR},
+            #{user.qrSceneStr,jdbcType=VARCHAR},
+            #{user.loginDate,jdbcType=TIMESTAMP},
+            #{user.createBy,jdbcType=VARCHAR},
+            #{user.createTime,jdbcType=TIMESTAMP},
+            #{user.updateBy,jdbcType=VARCHAR},
+            #{user.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    
+</mapper>

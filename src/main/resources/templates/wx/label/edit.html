@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改角色')" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-label-edit" th:object="${label}">
+			<input id="labelId" name="labelId" type="hidden" th:field="*{labelId}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">标签名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="labelName" id="labelName" th:field="*{labelName}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">权限字符：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="labelKey" id="labelKey" th:field="*{labelKey}" required>
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 控制器中定义的权限字符，如：@Requireslabels("")</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text" th:field="*{remark}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单权限</label>
+				<div class="col-sm-8">
+					<div id="menuTrees" class="ztree"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: ztree-js" />
+	<script type="text/javascript">
+	     $(function() {
+			var url = ctx + "wx/wxMenu/labelMenuTreeData?labelId=" + $("#labelId").val();
+			var options = {
+				id: "menuTrees",
+		        url: url,
+		        check: { enable: true },
+		        expandLevel: 0
+		    };
+			$.tree.init(options);
+		});
+	
+		$("#form-label-edit").validate({
+			onkeyup: false,
+			rules:{
+				labelName:{
+					remote: {
+		                url: ctx + "wx/label/checkLabelNameUnique",
+		                type: "post",
+		                dataType: "json",
+		                data: {
+							"labelId": function() {
+							    return $("#labelId").val();
+							},
+							"labelName": function() {
+							    return $.common.trim($("#labelName").val());
+							}
+		                },
+		                dataFilter: function(data, type) {
+		                	return $.validate.unique(data);
+		                }
+		            }
+				},
+				labelKey:{
+					remote: {
+		                url: ctx + "wx/label/checkLabelKeyUnique",
+		                type: "post",
+		                dataType: "json",
+		                data: {
+							"labelId": function() {
+								return $("#labelId").val();
+							},
+							"labelKey": function() {
+							    return $.common.trim($("#labelKey").val());
+							}
+		                },
+		                dataFilter: function(data, type) {
+		                	return $.validate.unique(data);
+		                }
+		            }
+				},
+				labelSort:{
+					digits:true
+				},
+			},
+			messages: {
+		        "labelName": {
+		            remote: "标签名称已经存在"
+		        },
+		        "labelKey": {
+		            remote: "标签权限已经存在"
+		        }
+		    },
+		    focusCleanup: true
+		});
+
+		function edit() {
+			var labelId = $("input[name='labelId']").val();
+			var labelName = $("input[name='labelName']").val();
+			var labelKey = $("input[name='labelKey']").val();
+			var remark = $("input[name='remark']").val();
+			var menuIds = $.tree.getCheckedNodes();
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : ctx + "wx/label/edit",
+				data : {
+					"labelId": labelId,
+					"labelName": labelName,
+					"labelKey": labelKey,
+					"remark": remark,
+					"menuIds": menuIds
+				},
+				async : false,
+				error : function(request) {
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					$.operate.successCallback(data);
+				}
+			});
+		}
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	edit();
+	        }
+	    }
+	</script>
+</body>
+</html>

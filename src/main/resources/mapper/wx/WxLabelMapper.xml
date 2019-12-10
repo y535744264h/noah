@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cctv.project.noah.wx.mapper.WxLabelMapper">
+  <resultMap id="BaseResultMap" type="com.cctv.project.noah.wx.entity.WxLabel">
+    <id column="label_id" jdbcType="BIGINT" property="labelId" />
+    <result column="label_name" jdbcType="VARCHAR" property="labelName" />
+    <result column="label_key" jdbcType="VARCHAR" property="labelKey" />
+    <result column="label_count" jdbcType="INTEGER" property="labelCount" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    label_id, label_name, label_key, label_count, `status`, create_by, create_time, update_by,
+    update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_label
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wx_label
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="label_id" keyProperty="labelId" parameterType="com.cctv.project.noah.wx.entity.WxLabel" useGeneratedKeys="true">
+    insert into wx_label (label_name, label_key, label_count,
+      `status`, create_by, create_time,
+      update_by, update_time, remark
+      )
+    values (#{labelName,jdbcType=VARCHAR}, #{labelKey,jdbcType=VARCHAR}, #{labelCount,jdbcType=INTEGER},
+      #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="label_id" keyProperty="labelId" parameterType="com.cctv.project.noah.wx.entity.WxLabel" useGeneratedKeys="true">
+    insert into wx_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="labelName != null">
+        label_name,
+      </if>
+      <if test="labelKey != null">
+        label_key,
+      </if>
+      <if test="labelCount != null">
+        label_count,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="labelName != null">
+        #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="labelKey != null">
+        #{labelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="labelCount != null">
+        #{labelCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cctv.project.noah.wx.entity.WxLabel">
+    update wx_label
+    <set>
+      <if test="labelName != null">
+        label_name = #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="labelKey != null">
+        label_key = #{labelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="labelCount != null">
+        label_count = #{labelCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cctv.project.noah.wx.entity.WxLabel">
+    update wx_label
+    set label_name = #{labelName,jdbcType=VARCHAR},
+      label_key = #{labelKey,jdbcType=VARCHAR},
+      label_count = #{labelCount,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where label_id = #{labelId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectaLabelList" parameterType="com.cctv.project.noah.wx.entity.WxLabel" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from wx_label l
+    <where>
+      <if test="labelName != null and labelName != ''">
+        AND l.label_name like concat('%', #{labelName}, '%')
+      </if>
+      <if test="status != null and status != ''">
+        AND l.status = #{status}
+      </if>
+      <if test="labelKey != null and labelKey != ''">
+        AND l.label_key like concat('%', #{labelKey}, '%')
+      </if>
+
+      <if test="params!=null and params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+        and date_format(l.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+      </if>
+      <if test="params!=null and params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+        and date_format(l.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+      </if>
+    </where>
+  </select>
+
+  <select id="checkLabelNameUnique" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select distinct l.label_id, l.label_name, l.label_key, l.label_count, l.`status`, l.create_by, l.create_time, l.update_by,
+    l.update_time, l.remark
+    from wx_label l
+    where l.label_name=#{labelName}
+  </select>
+
+
+  <select id="checkLabelKeyUnique" parameterType="String" resultMap="BaseResultMap">
+    select distinct l.label_id, l.label_name, l.label_key, l.label_count, l.`status`, l.create_by, l.create_time, l.update_by,
+    l.update_time, l.remark
+    from wx_label l
+    where l.label_key=#{labelKey}
+  </select>
+
+  <insert id="insertLabel" parameterType="com.cctv.project.noah.wx.entity.WxLabel" useGeneratedKeys="true" keyColumn="label_id" keyProperty="labelId">
+
+    insert into wx_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">label_id,</if>
+      <if test="labelName != null">label_name,</if>
+      <if test="labelKey != null">label_key,</if>
+      <if test="labelCount != null">label_count,</if>
+      <if test="status != null">`status`,</if>
+      <if test="createBy != null">create_by,</if>
+      <if test="updateBy != null">update_by,</if>
+      <if test="updateTime != null">update_time,</if>
+      <if test="remark != null">remark,</if>
+      create_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="labelId != null">#{labelId,jdbcType=VARCHAR},</if>
+      <if test="labelName != null">#{labelName,jdbcType=VARCHAR},</if>
+      <if test="labelKey != null">#{labelKey,jdbcType=VARCHAR},</if>
+      <if test="labelCount != null">#{labelCount,jdbcType=INTEGER},</if>
+      <if test="status != null">#{status,jdbcType=CHAR},</if>
+      <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+      <if test="updateBy != null">#{updateBy,jdbcType=VARCHAR},</if>
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+      sysdate()
+    </trim>
+  </insert>
+
+  <delete id="deleteLabelByIds" parameterType="Long">
+    delete from wx_label
+    where label_id in
+    <foreach collection="array" item="labelId" open="(" separator="," close=")">
+      #{labelId}
+    </foreach>
+  </delete>
+
+  <insert id="insertLabelList" >
+    insert into wx_label (label_id,label_name, label_key, label_count,
+      `status`, create_by, create_time,
+      update_by, update_time, remark
+      )
+      value
+    <foreach collection="list" item="item"  separator=",">
+     (
+      #{item.labelId},
+      #{item.labelName,jdbcType=VARCHAR},
+      #{item.labelKey,jdbcType=VARCHAR},
+      #{item.labelCount,jdbcType=INTEGER},
+      #{item.status,jdbcType=CHAR},
+      #{item.createBy,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateBy,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.remark,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+  <delete id="deleteLabelMenuByLabelId">
+    delete from wx_menu_label where label_id=#{labelId}
+  </delete>
+</mapper>

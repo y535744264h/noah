@@ -22,3 +22,7 @@ mybatis:
   type-aliases-package: com.cctv.project.noah.**.entity
 server:
   port: 8080
+wechat:
+  app-id: wx7c50afe98b079964
+  app-secret: a60a96116250a18cabc462d46166f788
+  token: 71d9eaedec314f6e84d45c926d9b9706
